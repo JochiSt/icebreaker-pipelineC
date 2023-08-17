@@ -26,10 +26,12 @@ BEGIN
         end if;
     END PROCESS P1;
 
-    Pled1 : PROCESS(counter) IS
+    Pled1 : PROCESS(clk) IS
     BEGIN
-        if (to_integer(counter) = 12000000) then
-            sled5 <= not sled5;
+        if rising_edge(clk) then
+            if (to_integer(counter) = 12000000) then
+                sled5 <= not sled5;
+            end if;
         end if;
     END PROCESS Pled1;
 
