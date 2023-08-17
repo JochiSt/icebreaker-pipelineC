@@ -23,13 +23,16 @@ BEGIN
     BEGIN
         if rising_edge(clk) then
             counter <= counter + 1;
+            if (to_integer(counter) = 24000000) then
+                counter <= (others=>'0');
+            end if;
         end if;
     END PROCESS P1;
 
     Pled1 : PROCESS(clk) IS
     BEGIN
         if rising_edge(clk) then
-            if (to_integer(counter) = 12000000) then
+            if (to_integer(counter) = 12000000) or (counter = 0) then
                 sled5 <= not sled5;
             end if;
         end if;
