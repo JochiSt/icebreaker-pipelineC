@@ -21,7 +21,7 @@ clean:
 $(PROJECT).json: $(OBJECT_FILES)
 	yosys -m ghdl -p 'ghdl $(GHDL_OPTIONS) $(TOP_MODULE); synth_ice40 -json $@'
 
-$(PROJECT).asc: $(PROJECT).json
+$(PROJECT).asc: $(PROJECT).json $(CONSTRAINT).pcf
 	nextpnr-ice40 --up5k --package sg48 --pcf $(CONSTRAINT).pcf --freq 12 --asc $@ --json $<
 
 $(PROJECT).bin: $(PROJECT).asc
