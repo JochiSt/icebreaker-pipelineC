@@ -20,7 +20,7 @@ clean:
 ###############################################################################
 
 work-obj08.cf: $(SOURCES)
-	#pipelinec --out_dir=pipelinec $(SOURCES)
+	pipelinec --out_dir=pipelinec $(SOURCES)
 	ghdl -a --std=08 pipelinec/c_structs_pkg.pkg.vhd
 	ghdl -a --std=08 pipelinec/built_in/BIN_OP_EQ_uint25_t_uint24_t/BIN_OP_EQ_uint25_t_uint24_t_0CLK_de264c78.vhd
 	ghdl -a --std=08 pipelinec/built_in/MUX_uint1_t_uint25_t_uint25_t/MUX_uint1_t_uint25_t_uint25_t_0CLK_de264c78.vhd
