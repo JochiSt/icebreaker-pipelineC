@@ -17,6 +17,11 @@ prog: $(PROJECT).bin
 clean:
 	rm -f *.o *.cf
 
+total_clean: clean
+	rm lextab.py yacctab.py
+	rm $(PROJECT).{asc,bin,rpt,json}
+	rm -rf pipelinec
+
 ###############################################################################
 
 work-obj08.cf: $(SOURCES)
