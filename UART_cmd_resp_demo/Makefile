@@ -1,5 +1,5 @@
 
-PROJECT=VHDLtest
+PROJECT=UART_CMD
 CONSTRAINT=icebreaker
 
 TOP_MODULE=blink
@@ -117,7 +117,7 @@ $(PROJECT).json: work-obj08.cf
 	yosys -m ghdl -p 'ghdl $(GHDL_OPTIONS) top; synth_ice40 -json $@'
 
 $(PROJECT).asc: $(PROJECT).json $(CONSTRAINT).pcf
-	nextpnr-ice40 --up5k --package sg48 --pcf $(CONSTRAINT).pcf --freq 12 --asc $@ --json $< --placed-svg $(PROJECT)_placed.svg --routed-svg $(PROJECT)_routed.svg
+	nextpnr-ice40 --up5k --package sg48 --pcf $(CONSTRAINT).pcf --freq 12 --asc $@ --json $< --placed-svg $(PROJECT)_placed.svg --routed-svg $(PROJECT)_routed.svg --pcf-allow-unconstrained --report $(PROJECT)_report.json
 
 $(PROJECT).bin: $(PROJECT).asc
 	icepack $< $@
