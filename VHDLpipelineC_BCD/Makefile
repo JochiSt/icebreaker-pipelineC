@@ -28,16 +28,30 @@ total_clean: clean
 
 ###############################################################################
 
-work-obj08.cf: $(SOURCES)
-	pipelinec --out_dir=pipelinec $(SOURCES)
-	ghdl -a --std=08 pipelinec/c_structs_pkg.pkg.vhd
-	ghdl -a --std=08 pipelinec/built_in/BIN_OP_EQ_uint25_t_uint24_t/BIN_OP_EQ_uint25_t_uint24_t_0CLK_de264c78.vhd
-	ghdl -a --std=08 pipelinec/built_in/MUX_uint1_t_uint25_t_uint25_t/MUX_uint1_t_uint25_t_uint25_t_0CLK_de264c78.vhd
-	ghdl -a --std=08 pipelinec/built_in/UNARY_OP_NOT_uint1_t/UNARY_OP_NOT_uint1_t_0CLK_de264c78.vhd
-	ghdl -a --std=08 pipelinec/built_in/MUX_uint1_t_uint1_t_uint1_t/MUX_uint1_t_uint1_t_uint1_t_0CLK_de264c78.vhd
-	ghdl -a --std=08 pipelinec/built_in/BIN_OP_PLUS_uint25_t_uint1_t/BIN_OP_PLUS_uint25_t_uint1_t_0CLK_de264c78.vhd
-	ghdl -a --std=08 pipelinec/blink/blink_0CLK_a5a1cd4e.vhd
-	ghdl -a --std=08 pipelinec/top/top.vhd
+vhdl_files.txt: $(CSOURCES)
+	pipelinec --out_dir=pipelinec $(CSOURCES)
+	sed -i -e 's/ /\n/g' pipelinec/vhdl_files.txt 
+	ln -sf pipelinec/vhdl_files.txt vhdl_files.txt
+
+.PHONY: makePipelineCVDHLsources
+makePipelineCVDHLsources: vhdl_files.txt
+	$(eval PIPELINECVHDLSOURCES+=$(shell cat vhdl_files.txt | grep "pkg"))	# package first
+	$(eval PIPELINECVHDLSOURCES+=$(shell cat vhdl_files.txt | grep "built_in" | grep -v "pkg"))
+	$(eval PIPELINECVHDLSOURCES+=$(shell cat vhdl_files.txt | grep -v "built_in" | grep -v "top" | grep -v "pkg"))
+	$(eval PIPELINECVHDLSOURCES+=$(shell cat vhdl_files.txt | grep "top"))	# ensure top module is at the end
+	echo $(PIPELINECVHDLSOURCES)
+
+.PHONY: makeObjectFileList
+makeObjectFileList: makePipelineCVDHLsources
+	$(eval OBJECTFILELIST+=$(PIPELINECVHDLSOURCES:.vhdl=.o))
+	$(eval OBJECTFILELIST+=$(VHDLSOURCES:.vhdl=.o))
+	$(eval OBJECTFILELIST=$(OBJECTFILELIST:.vhd=.o))
+	@echo "\n\n\n\n\n"
+	@echo $(OBJECTFILELIST)
+	@echo "\n\n\n\n\n"
+	@make $(OBJECTFILELIST)
+
+work-obj08.cf: makeObjectFileList
 
 $(PROJECT).json: work-obj08.cf
 	yosys -m ghdl -p 'ghdl $(GHDL_OPTIONS) top; synth_ice40 -json $@'
