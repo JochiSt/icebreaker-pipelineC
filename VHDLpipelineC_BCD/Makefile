@@ -3,7 +3,9 @@ PROJECT=VHDLbcd
 CONSTRAINT=icebreaker
 
 TOP_MODULE=bcd
-SOURCES=bcd.c
+CSOURCES=bcd.c
+
+VHDLSOURCES=
 
 GHDL_OPTIONS=--std=08
 
