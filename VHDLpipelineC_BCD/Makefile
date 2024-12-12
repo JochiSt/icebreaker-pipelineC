@@ -5,7 +5,7 @@ CONSTRAINT=icebreaker
 TOP_MODULE=bcd
 SOURCES=bcd.c
 
-GHDL_OPTIONS=--latches --std=08
+GHDL_OPTIONS=--std=08
 
 ###############################################################################
 
@@ -54,5 +54,7 @@ $(PROJECT).rpt: $(PROJECT).asc
 ###############################################################################
 
 %.o: %.vhdl
-	ghdl -a $<
+	ghdl -a $(GHDL_OPTIONS) $<
 
+%.o: %.vhd
+	ghdl -a $(GHDL_OPTIONS) $<
