@@ -5,3 +5,6 @@
 *.nplog
 *.rpt
 *.yslog
+
+# from pipelineC / GHDL
+*.o
