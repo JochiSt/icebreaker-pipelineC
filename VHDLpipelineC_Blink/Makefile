@@ -18,8 +18,11 @@ clean:
 	rm -f *.o *.cf
 
 total_clean: clean
-	rm lextab.py yacctab.py
-	rm $(PROJECT).{asc,bin,rpt,json}
+	rm -f lextab.py yacctab.py
+	rm -f $(PROJECT).asc
+	rm -f $(PROJECT).bin
+	rm -f $(PROJECT).rpt
+	rm -f $(PROJECT).json
 	rm -rf pipelinec
 
 ###############################################################################
