@@ -8,3 +8,4 @@
 
 # from pipelineC / GHDL
 *.o
+*.cf
