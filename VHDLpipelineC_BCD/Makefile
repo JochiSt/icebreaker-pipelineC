@@ -2,10 +2,13 @@
 PROJECT=VHDLbcd
 CONSTRAINT=icebreaker
 
-TOP_MODULE=bcd
-CSOURCES=bcd.c
+TOP_MODULE=bcd_top
 
-VHDLSOURCES=
+PIPELINEC_TOP=bcd
+CSOURCES=bcd.c mux.c
+
+VHDLSOURCES+=LUT_7segment.vhdl
+VHDLSOURCES+=bcd_top.vhdl
 
 GHDL_OPTIONS=--std=08
 
