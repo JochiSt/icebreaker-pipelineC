@@ -31,7 +31,7 @@ total_clean: clean
 ###############################################################################
 
 vhdl_files.txt: $(CSOURCES)
-	pipelinec --out_dir=pipelinec $(CSOURCES)
+	pipelinec --top=$(PIPELINEC_TOP) --out_dir=pipelinec $(CSOURCES)
 	sed -i -e 's/ /\n/g' pipelinec/vhdl_files.txt 
 	ln -sf pipelinec/vhdl_files.txt vhdl_files.txt
 
