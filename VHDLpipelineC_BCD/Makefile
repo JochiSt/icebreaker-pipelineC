@@ -53,7 +53,7 @@ makeObjectFileList: makePipelineCVDHLsources
 	@echo "\n\n\n\n\n"
 	@make $(OBJECTFILELIST)
 
-work-obj08.cf: makeObjectFileList
+work-obj08.cf: makeObjectFileList $(VHDLSOURCES:.vhdl=.o)
 
 $(PROJECT).json: work-obj08.cf
 	yosys -m ghdl -p 'ghdl $(GHDL_OPTIONS) $(TOP_MODULE); synth_ice40 -json $@'
