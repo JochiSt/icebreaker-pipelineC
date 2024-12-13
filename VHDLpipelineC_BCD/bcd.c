@@ -8,7 +8,7 @@ uint1_t led5;
 
 // 'Called'/'Executing' every 30ns (33.33MHz)
 #pragma MAIN_MHZ blink 12
-#pragma MAIN blink
+//#pragma MAIN blink
 
 uint1_t blink()
 {
