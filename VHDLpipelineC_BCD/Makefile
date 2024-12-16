@@ -14,14 +14,18 @@ GHDL_OPTIONS=--std=08
 
 ###############################################################################
 
+.PHONY: all
 all: $(PROJECT).rpt $(PROJECT).bin
 
+.PHONY: prog
 prog: $(PROJECT).bin
 	iceprog $<
 
+.PHONY: clean
 clean:
 	rm -f *.o *.cf
 
+.PHONY: total_clean
 total_clean: clean
 	rm -f lextab.py yacctab.py
 	rm -f $(PROJECT).asc
@@ -29,6 +33,7 @@ total_clean: clean
 	rm -f $(PROJECT).rpt
 	rm -f $(PROJECT).json
 	rm -rf pipelinec_*
+	rm -f *_files.txt
 	rm -f *.svg
 
 ###############################################################################
