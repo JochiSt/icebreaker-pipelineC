@@ -1,14 +1,15 @@
 
 PROJECT=VHDLbcd
-CONSTRAINT=icebreaker
-
 TOP_MODULE=bcd_top
 
-PIPELINEC_TOP=bcd
+# filename prefix = VHDL top module
 CSOURCES=bcd.c mux.c
 
 VHDLSOURCES+=LUT_7segment.vhdl
 VHDLSOURCES+=bcd_top.vhdl
+
+# prefix of constraint file *.pcf
+CONSTRAINT=icebreaker
 
 GHDL_OPTIONS=--std=08
 
