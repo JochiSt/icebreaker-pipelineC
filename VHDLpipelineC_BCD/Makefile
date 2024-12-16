@@ -29,6 +29,7 @@ total_clean: clean
 	rm -f $(PROJECT).rpt
 	rm -f $(PROJECT).json
 	rm -rf pipelinec_*
+	rm -f *_files.txt
 	rm -f *.svg
 
 ###############################################################################
