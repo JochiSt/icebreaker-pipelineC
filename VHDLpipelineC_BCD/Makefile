@@ -29,7 +29,6 @@ total_clean: clean
 	rm -f $(PROJECT).rpt
 	rm -f $(PROJECT).json
 	rm -rf pipelinec_*
-	rm -f *_files.txt
 	rm -f *.svg
 
 ###############################################################################
@@ -48,7 +47,7 @@ vhdl_files.txt: $(CSOURCES)
 	echo "" > $@
 	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "pkg" >> $@ || true
 	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "built_in" | grep -v "pkg" >> $@ || true 
-	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep -v "built_in" | grep -v "$(<:.c=)" | grep -v "pkg"  >> $@ || true
+	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep -v "built_in" | grep -v "$(<:.c=).vhd" | grep -v "pkg"  >> $@ || true
 	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "$(<:.c=).vhd" >> $@		
 	
 
