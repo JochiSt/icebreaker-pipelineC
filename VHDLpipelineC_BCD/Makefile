@@ -35,6 +35,7 @@ total_clean: clean
 
 vhdl_files.txt: $(CSOURCES)
 	@echo Building C sources $^
+	echo -n "" > vhdl_files.txt
 	for cfile in $(^:.c=_files.txt) ; do \
         make $$cfile ; \
 		cat $$cfile >> vhdl_files.txt; \
@@ -44,7 +45,7 @@ vhdl_files.txt: $(CSOURCES)
 	echo Building $< $@
 	pipelinec --top=$(<:.c=) --out_dir=pipelinec_$(<:.c=) $<
 	sed -i -e 's/ /\n/g' pipelinec_$(<:.c=)/vhdl_files.txt 
-	echo "" > $@
+	echo -n "" > $@
 	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "pkg" >> $@ || true
 	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "built_in" | grep -v "pkg" >> $@ || true 
 	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep -v "built_in" | grep -v "$(<:.c=).vhd" | grep -v "pkg"  >> $@ || true
