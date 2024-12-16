@@ -44,8 +44,10 @@ vhdl_files.txt: $(CSOURCES)
 	for cfile in $(^:.c=_files.txt) ; do \
         make $$cfile ; \
 		cat $$cfile >> vhdl_files.txt; \
+		echo "############################################################################"; \
     done
 
+# rule for each 
 %_files.txt : %.c
 	echo Building $< $@
 	pipelinec --top=$(<:.c=) --out_dir=pipelinec_$(<:.c=) $<
@@ -97,3 +99,5 @@ $(PROJECT).rpt: $(PROJECT).asc
 
 %.o: %.vhd
 	ghdl -a $(GHDL_OPTIONS) $<
+
+###############################################################################
