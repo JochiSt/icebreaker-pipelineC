@@ -34,9 +34,24 @@ total_clean: clean
 ###############################################################################
 
 vhdl_files.txt: $(CSOURCES)
-	pipelinec --top=$(PIPELINEC_TOP) --out_dir=pipelinec $(CSOURCES)
-	sed -i -e 's/ /\n/g' pipelinec/vhdl_files.txt 
-	ln -sf pipelinec/vhdl_files.txt vhdl_files.txt
+	@echo Building C sources $^
+	for cfile in $(^:.c=_files.txt) ; do \
+        make $$cfile ; \
+		cat $$cfile >> vhdl_files.txt; \
+    done
+
+%_files.txt : %.c
+	echo Building $< $@
+	pipelinec --top=$(<:.c=) --out_dir=pipelinec_$(<:.c=) $<
+	sed -i -e 's/ /\n/g' pipelinec_$(<:.c=)/vhdl_files.txt 
+	echo "" > $@
+	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "pkg" >> $@ || true
+	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "built_in" | grep -v "pkg" >> $@ || true 
+	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep -v "built_in" | grep -v "$(<:.c=)" | grep -v "pkg"  >> $@ || true
+	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "$(<:.c=).vhd" >> $@		
+	
+
+#@echo pipelinec --top=$(PIPELINEC_TOP) --out_dir=pipelinec $(CSOURCES)
 
 .PHONY: makePipelineCVDHLsources
 makePipelineCVDHLsources: vhdl_files.txt
