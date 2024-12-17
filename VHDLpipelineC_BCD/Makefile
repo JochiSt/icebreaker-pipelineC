@@ -54,11 +54,7 @@ vhdl_files.txt: $(CSOURCES)
 	echo Building $< $@
 	pipelinec --top=$(<:.c=) --out_dir=pipelinec_$(<:.c=) $<
 	sed -i -e 's/ /\n/g' pipelinec_$(<:.c=)/vhdl_files.txt 
-	echo -n "" > $@
-	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "pkg" >> $@ || true
-	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "built_in" | grep -v "pkg" >> $@ || true 
-	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep -v "built_in" | grep -v "$(<:.c=).vhd" | grep -v "pkg"  >> $@ || true
-	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "$(<:.c=).vhd" >> $@		
+	cp pipelinec_$(<:.c=)/vhdl_files.txt $@
 	
 .PHONY: makePipelineCVDHLsources
 makePipelineCVDHLsources: vhdl_files.txt
