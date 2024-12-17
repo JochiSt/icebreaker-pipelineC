@@ -92,6 +92,14 @@ $(PROJECT).rpt: $(PROJECT).asc
 	icetime -d up5k -c 12 -mtr $@ $<
 
 ###############################################################################
+# SIMULATION
+
+.PHONY: sim
+sim: work-obj08.cf bcd_top.tb.o
+	ghdl -e $(GHDL_OPTIONS) bcd_top_tb
+	ghdl -r $(GHDL_OPTIONS) bcd_top_tb --stop-time=10us --wave=bcd_top_tb.ghw
+
+###############################################################################
 
 %.o: %.vhdl
 	ghdl -a $(GHDL_OPTIONS) $<
