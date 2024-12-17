@@ -1,6 +1,6 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Tue Dec 17 11:59:50 2024
+[*] Tue Dec 17 12:05:06 2024
 [*]
 [dumpfile] "/home/steinmann/devel/github/FPGA/icebreaker-pipelineC/VHDLpipelineC_BCD/bcd_top_tb.ghw"
 [dumpfile_mtime] "Tue Dec 17 11:57:42 2024"
@@ -9,7 +9,7 @@
 [timestart] 0
 [size] 1920 1121
 [pos] -27 -24
-*-30.319139 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-27.319139 370000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] top.
 [treeopen] top.bcd_top_tb.
 [treeopen] top.bcd_top_tb.bcd_top_0.
@@ -45,6 +45,17 @@ top.bcd_top_tb.bcd_top_0.digit_mux.mux_sel[0]
 -lut_7segment
 @22
 #{top.bcd_top_tb.bcd_top_0.lut_7segment_0.decimal_in[3:0]} top.bcd_top_tb.bcd_top_0.lut_7segment_0.decimal_in[3] top.bcd_top_tb.bcd_top_0.lut_7segment_0.decimal_in[2] top.bcd_top_tb.bcd_top_0.lut_7segment_0.decimal_in[1] top.bcd_top_tb.bcd_top_0.lut_7segment_0.decimal_in[0]
+@c00023
 #{top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[6:0]} top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[6] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[5] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[4] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[3] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[2] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[1] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[0]
+@29
+top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[6]
+top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[5]
+top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[4]
+top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[3]
+top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[2]
+top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[1]
+top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[0]
+@1401201
+-group_end
 [pattern_trace] 1
 [pattern_trace] 0
