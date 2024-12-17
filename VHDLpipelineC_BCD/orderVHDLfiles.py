@@ -46,4 +46,6 @@ with open(args.output, "w") as outfile:
     for file in module_files:
         outfile.write("%s\n"%(file))
     for file in main_files:
-        outfile.write("%s\n"%(file))          
+        outfile.write("%s\n"%(file))
+        
+    outfile.close()
