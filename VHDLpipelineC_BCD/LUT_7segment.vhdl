@@ -3,11 +3,9 @@ USE IEEE.STD_LOGIC_1164.ALL;
 
 ENTITY LUT_7segment IS
     PORT (
-        clk_in : IN STD_LOGIC;
-
-        decimal_in : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-
-        segments_out : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
+        clk_in       : IN STD_LOGIC;
+        decimal_in   : IN STD_LOGIC_VECTOR(3 DOWNTO 0); -- 0 -> F
+        segments_out : OUT STD_LOGIC_VECTOR(6 DOWNTO 0) -- G -> A
     );
 END LUT_7segment;
 
