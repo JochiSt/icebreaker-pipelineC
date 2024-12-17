@@ -89,7 +89,22 @@ ARCHITECTURE behaviour OF bcd_top IS
 
 	SIGNAL segments : STD_LOGIC_VECTOR(6 DOWNTO 0) := (OTHERS => '0');
 
+	COMPONENT led_blink_counter IS
+		PORT (
+			clk_12p0                        : IN STD_LOGIC;
+			led_blink_counter_return_output : OUT unsigned(0 DOWNTO 0)
+		);
+	END COMPONENT;
+	SIGNAL led_blink_counter_return_output : unsigned(0 DOWNTO 0);
+
 BEGIN
+
+	led_blink_counter_0 : led_blink_counter
+	PORT MAP(
+		clk_12p0                        => CLK,
+		led_blink_counter_return_output => led_blink_counter_return_output
+	);
+	LEDG_N <= std_logic(led_blink_counter_return_output(0));
 
 	digit_counter : counter
 	GENERIC MAP(
@@ -134,6 +149,6 @@ BEGIN
 	-- assign anode
 	P1A10 <= mux_sel_slv(0); -- toggle between 0 and 1
 
-	LEDG_N <= mux_sel_slv(0);
+	LEDR_N <= mux_sel_slv(0);
 
 END behaviour; -- arch
