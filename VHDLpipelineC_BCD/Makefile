@@ -3,7 +3,7 @@ PROJECT=VHDLbcd
 TOP_MODULE=bcd_top
 
 # filename prefix = VHDL top module
-CSOURCES=bcd.c mux.c
+CSOURCES=bcd.c mux.c led_blink_counter.c
 
 VHDLSOURCES+=LUT_7segment.vhdl
 VHDLSOURCES+=counter.vhdl
