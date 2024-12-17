@@ -45,9 +45,9 @@ vhdl_files.txt: $(CSOURCES)
 	echo -n "" > vhdl_files.txt
 	for cfile in $(^:.c=_files.txt) ; do \
         make $$cfile ; \
-		cat $$cfile >> vhdl_files.txt; \
 		echo "############################################################################"; \
     done
+	python3 orderVHDLfiles.py -o $@ $(^:.c=_files.txt)
 
 # rule for each 
 %_files.txt : %.c
