@@ -1,0 +1,50 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Tue Dec 17 11:59:50 2024
+[*]
+[dumpfile] "/home/steinmann/devel/github/FPGA/icebreaker-pipelineC/VHDLpipelineC_BCD/bcd_top_tb.ghw"
+[dumpfile_mtime] "Tue Dec 17 11:57:42 2024"
+[dumpfile_size] 36590
+[savefile] "/home/steinmann/devel/github/FPGA/icebreaker-pipelineC/VHDLpipelineC_BCD/bcd_top_tb.gtkw"
+[timestart] 0
+[size] 1920 1121
+[pos] -27 -24
+*-30.319139 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.bcd_top_tb.
+[treeopen] top.bcd_top_tb.bcd_top_0.
+[treeopen] top.bcd_top_tb.bcd_top_0.digit_counter.
+[treeopen] top.bcd_top_tb.bcd_top_0.digit_mux.
+[treeopen] top.bcd_top_tb.bcd_top_0.lut_7segment_0.
+[sst_width] 297
+[signals_width] 206
+[sst_expanded] 1
+[sst_vpaned_height] 340
+@28
+top.bcd_top_tb.clk
+@200
+-
+-digit_counter
+@28
+top.bcd_top_tb.bcd_top_0.digit_counter.direction
+top.bcd_top_tb.bcd_top_0.digit_counter.enable
+top.bcd_top_tb.bcd_top_0.digit_counter.clock
+top.bcd_top_tb.bcd_top_0.digit_counter.counts[0]
+top.bcd_top_tb.bcd_top_0.digit_counter.count[0]
+@200
+-
+-digit_mux
+@22
+#{top.bcd_top_tb.bcd_top_0.digit_mux.mux_return_output[3:0]} top.bcd_top_tb.bcd_top_0.digit_mux.mux_return_output[3] top.bcd_top_tb.bcd_top_0.digit_mux.mux_return_output[2] top.bcd_top_tb.bcd_top_0.digit_mux.mux_return_output[1] top.bcd_top_tb.bcd_top_0.digit_mux.mux_return_output[0]
+#{top.bcd_top_tb.bcd_top_0.digit_mux.mux_b[3:0]} top.bcd_top_tb.bcd_top_0.digit_mux.mux_b[3] top.bcd_top_tb.bcd_top_0.digit_mux.mux_b[2] top.bcd_top_tb.bcd_top_0.digit_mux.mux_b[1] top.bcd_top_tb.bcd_top_0.digit_mux.mux_b[0]
+#{top.bcd_top_tb.bcd_top_0.digit_mux.mux_a[3:0]} top.bcd_top_tb.bcd_top_0.digit_mux.mux_a[3] top.bcd_top_tb.bcd_top_0.digit_mux.mux_a[2] top.bcd_top_tb.bcd_top_0.digit_mux.mux_a[1] top.bcd_top_tb.bcd_top_0.digit_mux.mux_a[0]
+@28
+top.bcd_top_tb.bcd_top_0.digit_mux.mux_sel[0]
+@200
+-
+-lut_7segment
+@22
+#{top.bcd_top_tb.bcd_top_0.lut_7segment_0.decimal_in[3:0]} top.bcd_top_tb.bcd_top_0.lut_7segment_0.decimal_in[3] top.bcd_top_tb.bcd_top_0.lut_7segment_0.decimal_in[2] top.bcd_top_tb.bcd_top_0.lut_7segment_0.decimal_in[1] top.bcd_top_tb.bcd_top_0.lut_7segment_0.decimal_in[0]
+#{top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[6:0]} top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[6] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[5] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[4] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[3] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[2] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[1] top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[0]
+[pattern_trace] 1
+[pattern_trace] 0
