@@ -34,4 +34,6 @@ BEGIN
 
     END PROCESS; -- proc_cnt
 
+    count <= std_logic_vector(counts);    -- propagate the signal to output
+
 END ARCHITECTURE; -- arch
