@@ -17,7 +17,7 @@ GHDL_OPTIONS=--std=08
 ###############################################################################
 
 .PHONY: all
-all: $(PROJECT).rpt $(PROJECT).bin
+all: $(PROJECT).bin $(PROJECT).rpt
 
 .PHONY: prog
 prog: $(PROJECT).bin
