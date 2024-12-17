@@ -60,9 +60,6 @@ vhdl_files.txt: $(CSOURCES)
 	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep -v "built_in" | grep -v "$(<:.c=).vhd" | grep -v "pkg"  >> $@ || true
 	cat pipelinec_$(<:.c=)/vhdl_files.txt | grep "$(<:.c=).vhd" >> $@		
 	
-
-#@echo pipelinec --top=$(PIPELINEC_TOP) --out_dir=pipelinec $(CSOURCES)
-
 .PHONY: makePipelineCVDHLsources
 makePipelineCVDHLsources: vhdl_files.txt
 	$(eval PIPELINECVHDLSOURCES+=$(shell cat vhdl_files.txt))
