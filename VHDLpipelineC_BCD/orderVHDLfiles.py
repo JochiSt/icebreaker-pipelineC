@@ -1,5 +1,3 @@
-#!/bin/python
-
 ################################################################################
 # order the VHDL files, such, that they are unique and ordered
 # used to forward multiple pipelinec units within one VHDL project
