@@ -32,8 +32,13 @@ for f in args.file:
             if not any(os.path.basename(line) in s for s in built_in_files):
                 built_in_files.append(line)
         else:
-            if not any(os.path.basename(line) in s for s in module_files):
-                module_files.append(line)
+            # check whether we have a module
+            if os.path.basename(line).split(".")[0] == os.path.dirname(line).split("/")[-1]:
+                if not any(os.path.basename(line) in s for s in main_files):
+                    main_files.append(line)
+            else:    
+                if not any(os.path.basename(line) in s for s in main_files):
+                    module_files.append(line)
                 
 with open(args.output, "w") as outfile:
     for file in package_files:
