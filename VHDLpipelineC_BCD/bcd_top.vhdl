@@ -98,13 +98,15 @@ ARCHITECTURE behaviour OF bcd_top IS
 	SIGNAL led_blink_counter_return_output : unsigned(0 DOWNTO 0);
 
 BEGIN
-
+	----------------------------------------------------------------------------
+	-- simple LED blinker with 1Hz
 	led_blink_counter_0 : led_blink_counter
 	PORT MAP(
 		clk_12p0                        => CLK,
 		led_blink_counter_return_output => led_blink_counter_return_output
 	);
 	LEDG_N <= std_logic(led_blink_counter_return_output(0));
+	----------------------------------------------------------------------------
 
 	digit_counter : counter
 	GENERIC MAP(
