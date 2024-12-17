@@ -6,6 +6,7 @@ TOP_MODULE=bcd_top
 CSOURCES=bcd.c mux.c
 
 VHDLSOURCES+=LUT_7segment.vhdl
+VHDLSOURCES+=counter.vhdl
 VHDLSOURCES+=bcd_top.vhdl
 
 # prefix of constraint file *.pcf
