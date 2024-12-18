@@ -28,7 +28,10 @@ for f in args.file:
                 package_files.append(line)
         elif "built_in" in line:
             if not any(os.path.basename(line) in s for s in built_in_files):
-                built_in_files.append(line)
+                if "CONST" in os.path.basename(line):
+                    built_in_files.insert(0, line)
+                else:
+                    built_in_files.append(line)
         else:
             # check whether we have a module
             if os.path.basename(line).split(".")[0] == os.path.dirname(line).split("/")[-1]:
