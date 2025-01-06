@@ -3,26 +3,23 @@ import os
 action = "simulation"
 
 sim_tool = "ghdl"
-sim_top = "tb_pipelineC_average"
+sim_top = "bcd_top_tb"
 ghdl_opt = "--workdir=work -fsynopsys --std=08"
 
-sim_post_cmd = "ghdl -r tb_pipelineC_average --stop-time=5ms --wave=tb_pipelineC_average.ghw"
+sim_post_cmd = "ghdl -r bcd_top_tb --stop-time=5ms --wave=bcd_top_tb.ghw"
 
 incl_makefiles = [
 ]
 
-files = [
-    "bcd.tb.vhdl",
-    "bcd_top.tb.vhdl",
-    "counter.vhdl",
-    ]
-
 modules = {
     "local" : [
-        "pipelineC_bcd",
-        "pipelineC_led_blink_counter",
-        "pipelineC_mux",
+        "pipelineC",
     ],
 }
 
- 
+files = [
+    "bcd_top.vhdl",
+    "bcd_top.tb.vhdl",
+    "LUT_7segment.vhdl",
+    "counter.vhdl",
+    ]
