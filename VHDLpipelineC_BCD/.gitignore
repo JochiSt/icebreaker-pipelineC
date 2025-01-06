@@ -8,3 +8,6 @@ bcd_top_tb
 
 # generated makefile from HDLmake
 Makefile
+
+# simulation output
+work/*
