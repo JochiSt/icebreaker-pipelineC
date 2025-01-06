@@ -21,7 +21,7 @@ PIPELINEC_CMD = "pipelinec"
 pipelineC_arguments = [
     "--no_synth",           # do not synthesize the files
     "--out_dir=pipelinec",  # use constant output folder
-    "--top=led_blink_counter", # set the name of the TOP module
+    "--top=bcd", # set the name of the TOP module
     ]
 
 pipelineC_call = [PIPELINEC_CMD]

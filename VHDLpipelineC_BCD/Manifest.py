@@ -17,9 +17,12 @@ files = [
     "counter.vhdl",
     ]
 
-with open("vhdl_files.txt", "r") as infile:
-    for line in infile:
-        rel_path = os.path.relpath(line.strip())
-        files.append(rel_path)
+modules = {
+    "local" : [
+        "pipelineC_bcd",
+        "pipelineC_led_blink_counter",
+        "pipelineC_mux",
+    ],
+}
 
  
