@@ -5,3 +5,6 @@ yacctab.py
 
 bcd_top_tb
 *.ghw
+
+# generated makefile from HDLmake
+Makefile
