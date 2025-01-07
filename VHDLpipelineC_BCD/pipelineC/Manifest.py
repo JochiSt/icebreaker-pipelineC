@@ -59,12 +59,6 @@ for folder, topmodule in filefolders:
         for line in vhdlfile:
             full_path_files = full_path_files + line.split()
 
-    # full_path_files contains all files of all pipelineC files
-
-print("")
-print(full_path_files)
-print("")
-
 print("building the file array...")
 files = []
 for file in full_path_files:
