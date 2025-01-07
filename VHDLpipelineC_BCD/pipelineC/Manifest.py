@@ -41,7 +41,7 @@ for folder, topmodule in filefolders:
         PIPELINEC_CMD = "pipelinec"
 
         pipelineC_arguments = [
-            "--no_synth",           # do not synthesize the files
+            #"--no_synth",           # do not synthesize the files
             "--out_dir="+folder+"/pipelinec",  # use constant output folder
             "--top="+topmodule,         # set the name of the TOP module
             ]
