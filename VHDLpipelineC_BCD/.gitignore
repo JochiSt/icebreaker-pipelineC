@@ -10,4 +10,4 @@ bcd_top_tb
 Makefile
 
 # simulation output
-work/*
+work
