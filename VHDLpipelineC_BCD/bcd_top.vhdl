@@ -49,7 +49,7 @@ END bcd_top;
 ARCHITECTURE behaviour OF bcd_top IS
 
 	SIGNAL dip_switches : STD_LOGIC_VECTOR(7 DOWNTO 0) := (OTHERS => '0');
-
+	----------------------------------------------------------------------------
 	COMPONENT counter IS
 		GENERIC (
 			BITWIDTH : INTEGER RANGE 0 TO 16 := 1
@@ -63,6 +63,7 @@ ARCHITECTURE behaviour OF bcd_top IS
 
 	END COMPONENT;
 
+	----------------------------------------------------------------------------
 	COMPONENT mux IS
 		PORT (
 			clk_100p0 : IN STD_LOGIC;
@@ -79,6 +80,8 @@ ARCHITECTURE behaviour OF bcd_top IS
 
 	SIGNAL mux_digit : unsigned(3 DOWNTO 0) := (OTHERS => '0');
 
+	SIGNAL mux_input : unsigned(7 DOWNTO 0) := (OTHERS => '0');
+	----------------------------------------------------------------------------
 	COMPONENT LUT_7segment IS
 		PORT (
 			clk_in       : IN STD_LOGIC;
@@ -86,9 +89,9 @@ ARCHITECTURE behaviour OF bcd_top IS
 			segments_out : OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
 		);
 	END COMPONENT;
-
 	SIGNAL segments : STD_LOGIC_VECTOR(6 DOWNTO 0) := (OTHERS => '0');
 
+	----------------------------------------------------------------------------
 	COMPONENT led_blink_counter IS
 		PORT (
 			clk_12p0                        : IN STD_LOGIC;
@@ -96,6 +99,15 @@ ARCHITECTURE behaviour OF bcd_top IS
 		);
 	END COMPONENT;
 	SIGNAL led_blink_counter_return_output : unsigned(0 DOWNTO 0);
+
+	----------------------------------------------------------------------------
+	COMPONENT bcd IS
+		PORT (
+			clk_12p0          : IN STD_LOGIC;
+			bcd_binary_in     : IN unsigned(7 DOWNTO 0);
+			bcd_return_output : OUT unsigned(7 DOWNTO 0)
+		);
+	END COMPONENT;
 
 BEGIN
 	----------------------------------------------------------------------------
@@ -105,7 +117,7 @@ BEGIN
 		clk_12p0                        => CLK,
 		led_blink_counter_return_output => led_blink_counter_return_output
 	);
-	LEDG_N <= std_logic(led_blink_counter_return_output(0));
+	LEDG_N <= STD_LOGIC(led_blink_counter_return_output(0));
 	----------------------------------------------------------------------------
 
 	digit_counter : counter
@@ -126,8 +138,8 @@ BEGIN
 
 		-- IO for each main func
 		mux_sel           => mux_sel,
-		mux_A => (OTHERS => '1'),
-		mux_B => (OTHERS => '0'),
+		mux_A             => mux_input(3 DOWNTO 0),
+		mux_B             => mux_input(7 DOWNTO 4),
 		mux_return_output => mux_digit
 	);
 
@@ -137,6 +149,16 @@ BEGIN
 		decimal_in   => STD_LOGIC_VECTOR(mux_digit),
 		segments_out => segments
 	);
+
+	bcd_0 : bcd
+	PORT MAP(
+		clk_12p0          => CLK,
+		bcd_binary_in     => unsigned(dip_switches),
+		bcd_return_output => mux_input
+	);
+
+	----------------------------------------------------------------------------
+	-- assign and map IOs to switches and LED
 
 	dip_switches <= P1B10 & P1B9 & P1B8 & P1B7 & P1B4 & P1B3 & P1B2 & P1B1;
 
@@ -150,7 +172,6 @@ BEGIN
 	P1A1 <= segments(0);
 	-- assign anode
 	P1A10 <= mux_sel_slv(0); -- toggle between 0 and 1
-
 	LEDR_N <= mux_sel_slv(0);
 
 END behaviour; -- arch
