@@ -12,7 +12,7 @@ filefolders = [
     ["pipelineC_mux", "mux"],
 ]
 
-run_pipelinec = False   # run pipelineC ??
+run_pipelinec = True   # run pipelineC ??
 
 ################################################################################
 # store full path of VHDL files
