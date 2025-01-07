@@ -1,10 +1,10 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Tue Jan  7 09:12:05 2025
+[*] Tue Jan  7 11:47:54 2025
 [*]
 [dumpfile] "/home/steinmann/devel/github/FPGA/icebreaker-pipelineC/VHDLpipelineC_BCD/bcd_top_tb.ghw"
-[dumpfile_mtime] "Tue Jan  7 09:11:10 2025"
-[dumpfile_size] 14528336
+[dumpfile_mtime] "Tue Jan  7 11:46:43 2025"
+[dumpfile_size] 19529857
 [savefile] "/home/steinmann/devel/github/FPGA/icebreaker-pipelineC/VHDLpipelineC_BCD/bcd_top_tb.gtkw"
 [timestart] 0
 [size] 1920 1121
@@ -23,6 +23,12 @@
 [sst_vpaned_height] 340
 @28
 top.bcd_top_tb.clk
+@200
+-
+@22
+#{top.bcd_top_tb.bcd_top_0.dip_switches[7:0]} top.bcd_top_tb.bcd_top_0.dip_switches[7] top.bcd_top_tb.bcd_top_0.dip_switches[6] top.bcd_top_tb.bcd_top_0.dip_switches[5] top.bcd_top_tb.bcd_top_0.dip_switches[4] top.bcd_top_tb.bcd_top_0.dip_switches[3] top.bcd_top_tb.bcd_top_0.dip_switches[2] top.bcd_top_tb.bcd_top_0.dip_switches[1] top.bcd_top_tb.bcd_top_0.dip_switches[0]
+@25
+#{top.bcd_top_tb.bcd_top_0.dip_switches[7:0]} top.bcd_top_tb.bcd_top_0.dip_switches[7] top.bcd_top_tb.bcd_top_0.dip_switches[6] top.bcd_top_tb.bcd_top_0.dip_switches[5] top.bcd_top_tb.bcd_top_0.dip_switches[4] top.bcd_top_tb.bcd_top_0.dip_switches[3] top.bcd_top_tb.bcd_top_0.dip_switches[2] top.bcd_top_tb.bcd_top_0.dip_switches[1] top.bcd_top_tb.bcd_top_0.dip_switches[0]
 @200
 -
 -digit_counter
@@ -61,6 +67,8 @@ top.bcd_top_tb.bcd_top_0.lut_7segment_0.segments_out[0]
 @200
 -
 -BCD
+@24
+#{top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[7:0]} top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[7] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[6] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[5] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[4] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[3] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[2] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[1] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[0]
 @22
 #{top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[7:0]} top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[7] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[6] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[5] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[4] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[3] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[2] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[1] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_binary_in[0]
 #{top.bcd_top_tb.bcd_top_0.bcd_0.bcd_return_output[7:0]} top.bcd_top_tb.bcd_top_0.bcd_0.bcd_return_output[7] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_return_output[6] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_return_output[5] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_return_output[4] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_return_output[3] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_return_output[2] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_return_output[1] top.bcd_top_tb.bcd_top_0.bcd_0.bcd_return_output[0]
