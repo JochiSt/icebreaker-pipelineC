@@ -85,14 +85,14 @@ BEGIN
         P1A10 => OPEN,
 
         -- P1B10 & P1B9 & P1B8 & P1B7 & P1B4 & P1B3 & P1B2 & P1B1;
-        P1B1  => dip_switches(0),
-        P1B2  => dip_switches(1),
-        P1B3  => dip_switches(2),
-        P1B4  => dip_switches(3),
-        P1B7  => dip_switches(4),
-        P1B8  => dip_switches(5),
-        P1B9  => dip_switches(6),
-        P1B10 => dip_switches(7),
+        P1B1  => dip_switches(7),
+        P1B2  => dip_switches(6),
+        P1B3  => dip_switches(5),
+        P1B4  => dip_switches(4),
+        P1B7  => dip_switches(3),
+        P1B8  => dip_switches(2),
+        P1B9  => dip_switches(1),
+        P1B10 => dip_switches(0),
 
         LED1 => OPEN,
         LED2 => OPEN,
@@ -120,6 +120,14 @@ BEGIN
         dip_switches <= "00000010";
         wait for 40 ns;
         dip_switches <= "00100000";
+
+        wait for 5 ns;
+
+        wait for 80 ns;
+        dip_switches <= "00000010";
+        wait for 80 ns;
+        dip_switches <= "01100000";
+
         wait for 10 ms; -- wait basically until end of simulation
     end process;
 
