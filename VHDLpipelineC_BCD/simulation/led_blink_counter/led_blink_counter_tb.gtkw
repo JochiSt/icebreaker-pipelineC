@@ -1,0 +1,27 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Thu Jan  9 11:40:51 2025
+[*]
+[dumpfile] "/home/steinmann/devel/github/FPGA/icebreaker-pipelineC/VHDLpipelineC_BCD/simulation/led_blink_counter/led_blink_counter_tb.ghw"
+[dumpfile_mtime] "Thu Jan  9 11:39:48 2025"
+[dumpfile_size] 10502526
+[savefile] "/home/steinmann/devel/github/FPGA/icebreaker-pipelineC/VHDLpipelineC_BCD/simulation/led_blink_counter/led_blink_counter_tb.gtkw"
+[timestart] 0
+[size] 1920 1121
+[pos] -1 -1
+*-39.492416 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.led_blink_counter_tb.
+[treeopen] top.led_blink_counter_tb.led_blink_counter_0.
+[sst_width] 297
+[signals_width] 302
+[sst_expanded] 1
+[sst_vpaned_height] 340
+@28
+top.led_blink_counter_tb.clk
+@29
+top.led_blink_counter_tb.led_blink_counter_0.clk_12p0
+@28
+top.led_blink_counter_tb.led_blink_counter_0.led_blink_counter_return_output[0]
+[pattern_trace] 1
+[pattern_trace] 0
