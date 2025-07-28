@@ -1,1 +1,12 @@
 gateware.*
+*.log
+
+# pipelineC generated stuff
+pipelinec_output/*
+lextab.py
+yacctab.py
+pipelinec_makefile_config.h
+
+# pllice output file
+pll.v
+
