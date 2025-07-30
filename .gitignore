@@ -1,6 +1,7 @@
 .vscode/*
 gateware.*
 *.log
+utilisation.json
 
 # pipelineC generated stuff
 pipelinec_output/*

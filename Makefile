@@ -42,7 +42,7 @@ clean:
 gateware.bin: $(SV_TOP_FILE)
 	$(ICEPLL) -q -i $(MAIN_CLK_MHZ) -o $(PLL_CLK_MHZ) -p -m -f pll.v
 	$(YOSYS) -q -m ghdl -p "ghdl $(GHDL_ARGS) `cat pipelinec_output/vhdl_files.txt` -e pipelinec_top; read_verilog -sv $(SV_TOP_FILE) pll.v; synth_ice40 -top $(TOP_NAME) -json $*.json"
-	$(NEXTPNR) -q --seed 0 --up5k --package sg48 --pcf icebreaker.pcf --json $*.json --asc $*.asc $(NEXTPNR_ARGS)
+	$(NEXTPNR) -q --seed 0 --up5k --package sg48 --pcf icebreaker.pcf --json $*.json --asc $*.asc $(NEXTPNR_ARGS) --report utilisation.json
 	$(ICEPACK) $*.asc $@
 
 # Cant invoke pipelinec with preprocessor macros set
