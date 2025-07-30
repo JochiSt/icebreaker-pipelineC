@@ -15,8 +15,4 @@ DECL_INPUT(uint1_t, pll_clk)
 CLK_MHZ(pll_clk, PLL_CLK_MHZ)
 DECL_INPUT(uint1_t, pll_locked)
 
-// Instantiate UART MAC module
-#include "pinout/pinout_UART.h"
-#define UART_CLK_MHZ PLL_CLK_MHZ
-#define UART_BAUD 115200
-#include "uart/uart_mac.c"
+
