@@ -53,6 +53,10 @@ module top(
     inout P2_9 ,
     inout P2_10
   );
+
+  wire clk_None;
+  assign clk_None = CLK;
+
   // CLK has a default 12MHz clock in pico and pico2
   // PLL instance to make a clock based on 12MHz
   wire pll_clk;
