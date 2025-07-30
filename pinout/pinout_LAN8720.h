@@ -1,30 +1,30 @@
-// Configure IO direction for each pin used
-// Use RMII phy wires attached to pico ice PMOD 0
+#pragma once
+#include "compiler.h"
+#include "uintN_t.h"
+
+// Use RMII phy wires attached to icebreaker PMOD1A
 //  LAN8720 board is not a real standard PMOD
-//  so is inserted offset in the PMOD connector
-//  Only the required RMII signals are connected
-// (VCC and GND pins connected with extra jumper wires)
-//  A=top/inner row, pin1-6
-//    IO1 = rmii_clk
-//    IO2 = rmii_rx0
-//    IO3 = rmii_tx_en
-//    IO4 = rmii_tx1
-#define PMOD_0A_I1
-#define RMII_CLK_WIRE pmod_0a_i1
-#define PMOD_0A_I2
-#define RMII_RX0_WIRE pmod_0a_i2
-#define PMOD_0A_O3
-#define RMII_TX_EN_WIRE pmod_0a_o3
-#define PMOD_0A_O4
-#define RMII_TX1_WIRE pmod_0a_o4
-//  B=bottom/outter row, pin7-12
-//    IO1 = rmii_crs
-//    IO2 = rmii_rx1
-//    IO3 = rmii_tx0
-//    IO4 = NO CONNECT
-#define PMOD_0B_I1
-#define RMII_CRS_DV_WIRE pmod_0b_i1
-#define PMOD_0B_I2
-#define RMII_RX1_WIRE pmod_0b_i2
-#define PMOD_0B_O3
-#define RMII_TX0_WIRE pmod_0b_o3
+//  so is inserted upside down in the PMOD connector
+#define RMII_CLK_WIRE       P1A9
+
+#define RMII_CRS_DV_WIRE    P1A3
+#define RMII_RX0_WIRE       P1A8
+#define RMII_RX1_WIRE       P1A2
+
+#define RMII_TX_EN_WIRE     P1A7
+#define RMII_TX0_WIRE       P1A1
+#define RMII_TX1_WIRE       P1A10
+
+DECL_INPUT(uint1_t, RMII_CLK_WIRE)
+
+DECL_INPUT(uint1_t, RMII_CRS_DV_WIRE)
+DECL_INPUT(uint1_t, RMII_RX0_WIRE)
+DECL_INPUT(uint1_t, RMII_RX1_WIRE)
+
+DECL_OUTPUT(uint1_t, RMII_TX_EN_WIRE)
+DECL_OUTPUT(uint1_t, RMII_TX0_WIRE)
+DECL_OUTPUT(uint1_t, RMII_TX1_WIRE)
+
+
+
+
