@@ -11,6 +11,8 @@ SV_TOP_FILE ?= $(TOP_NAME).sv
 
 # Only one PLL producing one clock in design for now...
 PLL_CLK_MHZ ?= 25.0
+MAIN_CLK_MHZ ?= 12.0
+
 # Default nextpnr targetting the PLL clock freq
 NEXTPNR_FREQ ?= $(PLL_CLK_MHZ)
 NEXTPNR_ARGS ?= --freq $(NEXTPNR_FREQ)
@@ -44,6 +46,7 @@ gateware.bin: $(SV_TOP_FILE)
 # So instead echo a .h file right before running tool...
 pipelinec:
 	echo "#define PLL_CLK_MHZ $(PLL_CLK_MHZ)\n" > pipelinec_makefile_config.h
+	echo "#define MAIN_CLK_MHZ $(MAIN_CLK_MHZ)\n" >> pipelinec_makefile_config.h
 	$(PIPELINEC) $(PIPELINEC_TOP_FILE) --top pipelinec_top --out_dir pipelinec_output --comb --no_synth
 
 .SUFFIXES: .v .sv .asc .bin .uf2
