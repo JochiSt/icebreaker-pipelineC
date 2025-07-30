@@ -1,7 +1,6 @@
 #pragma once
 #include "compiler.h"
 #include "uintN_t.h"
-#include "intN_t.h"
 
 // normal LEDs
 DECL_OUTPUT(uint1_t, LEDR_N)
