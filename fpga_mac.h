@@ -1,3 +1,4 @@
+#pragma once
 // Network, big endian, byte order
 // MAC0 is most signficant byte
 // MAC5 is least signficant byte
