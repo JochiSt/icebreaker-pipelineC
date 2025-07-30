@@ -44,6 +44,7 @@ int main(int argc, char **argv)
     eth_write(tx_payload, tx_payload_size);
     // Receive
     eth_read(rx_payload, &rx_payload_size);
+
     // Compare
     // Fine to receive more data as long as it byte matches below
     if(rx_payload_size < tx_payload_size)
@@ -52,6 +53,8 @@ int main(int argc, char **argv)
       printf("tx_payload_size %ld != %ld rx_payload_size\n",tx_payload_size,rx_payload_size);
       exit(-1);
     }
+    // printf("tx_payload_size %ld == %ld rx_payload_size\n",tx_payload_size,rx_payload_size);
+
     for(int b = 0; b < tx_payload_size; b++)
     {
       if(rx_payload[b] != tx_payload[b])
@@ -61,6 +64,7 @@ int main(int argc, char **argv)
         printf("rx_payload[b] %d !=  %d tx_payload[b]\n",rx_payload[b],tx_payload[b]);
         exit(-1);
       }
+      //printf("rx_payload[b] %d ==  %d tx_payload[b]\n",rx_payload[b],tx_payload[b]);
     }
   }
 
