@@ -17,6 +17,10 @@ MAIN_CLK_MHZ ?= 12.0
 NEXTPNR_FREQ ?= $(PLL_CLK_MHZ)
 NEXTPNR_ARGS ?= --freq $(NEXTPNR_FREQ)
 
+GHDL_ARGS += --std=08 -frelaxed
+GHDL_ARGS += -Wno-unhandled-attribute
+GHDL_ARGS += -Wno-hide
+
 all: pipelinec gateware.bin
 
 .PHONY: clean prog pipelinec
@@ -36,8 +40,8 @@ clean:
 	$(RM) yosys_stderr.log
 
 gateware.bin: $(SV_TOP_FILE)
-	$(ICEPLL) -q -i 12 -o $(PLL_CLK_MHZ) -p -m -f pll.v
-	$(YOSYS) -q -m ghdl -p "ghdl --std=08 -frelaxed `cat pipelinec_output/vhdl_files.txt` -e pipelinec_top; read_verilog -sv $(SV_TOP_FILE) pll.v; synth_ice40 -top $(TOP_NAME) -json $*.json"
+	$(ICEPLL) -q -i $(MAIN_CLK_MHZ) -o $(PLL_CLK_MHZ) -p -m -f pll.v
+	$(YOSYS) -q -m ghdl -p "ghdl $(GHDL_ARGS) `cat pipelinec_output/vhdl_files.txt` -e pipelinec_top; read_verilog -sv $(SV_TOP_FILE) pll.v; synth_ice40 -top $(TOP_NAME) -json $*.json"
 	$(NEXTPNR) -q --seed 0 --up5k --package sg48 --pcf icebreaker.pcf --json $*.json --asc $*.asc $(NEXTPNR_ARGS)
 	$(ICEPACK) $*.asc $@
 
