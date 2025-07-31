@@ -5,8 +5,12 @@ ICEPACK = icepack
 ICEPLL = icepll
 PIPELINEC = pipelinec
 
+PIPELINEC_FOLDER = eth_loopback
+#PIPELINEC_FOLDER = udp_loopback
+
+
 TOP_NAME ?= top
-PIPELINEC_TOP_FILE ?= $(TOP_NAME).c
+PIPELINEC_TOP_FILE ?= $(PIPELINEC_FOLDER)/$(TOP_NAME).c
 SV_TOP_FILE ?= $(TOP_NAME).sv
 
 # Only one PLL producing one clock in design for now...
