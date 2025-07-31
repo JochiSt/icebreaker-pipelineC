@@ -5,7 +5,7 @@
 // Blinky part of demo
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "pinout/pinout_LEDs.h"
+#include "../pinout/pinout_LEDs.h"
 #define HALF_SEC ((uint32_t)((PLL_CLK_MHZ * 1000000.0) / 2.0))
 #define count_t uint32_t
 MAIN_MHZ(blinky_main, PLL_CLK_MHZ)
@@ -25,7 +25,7 @@ void blinky_main() {
 // Instantiate UART MAC module
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "pinout/pinout_UART.h"
+#include "../pinout/pinout_UART.h"
 #define UART_CLK_MHZ PLL_CLK_MHZ
 #define UART_BAUD 115200
 #include "uart/uart_mac.c"
@@ -52,7 +52,7 @@ void uart_main() {
 ////////////////////////////////////////////////////////////////////////////////
 // Instantiate Ethernet module
 ////////////////////////////////////////////////////////////////////////////////
-#include "pinout/pinout_LAN8720.h"
+#include "../pinout/pinout_LAN8720.h"
 #include "net/rmii_wires.c"
 
 // Include ethernet media access controller configured to use RMII wires and 8b AXIS
@@ -64,7 +64,7 @@ void uart_main() {
 // Include logic for parsing/building ethernet frames (8b AXIS)
 #include "net/eth_8.h"
 // MAC address info we want the fpga to have (shared with software)
-#include "fpga_mac.h"
+#include "../fpga_mac.h"
 
 // Instead of loopback, can wire up a demo of doing some work
 // #define ETH_DEMO_IS_WORK_PIPELINE

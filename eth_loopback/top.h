@@ -4,7 +4,7 @@
 #include "uintN_t.h"
 
 // Get clock rate constant PLL_CLK_MHZ from header written by make flow
-#include "pipelinec_makefile_config.h"
+#include "../pipelinec_makefile_config.h"
 
 // By default PipelineC names clock ports with the rate included
 // ex. clk_12p0
