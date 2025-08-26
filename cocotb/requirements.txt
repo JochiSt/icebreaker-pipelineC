@@ -1,0 +1,5 @@
+cocotb==1.9.2
+cocotb-bus==0.2.1
+cocotbext-axi==0.1.24
+-e git+https://github.com/svancau/cocotbext-eth.git@ffbe6ac2c5860921623833bc21167f43b7d5c50e#egg=cocotbext_eth&subdirectory=../../../../cocotb/modules/cocotbext-eth
+find_libpython==0.4.1
