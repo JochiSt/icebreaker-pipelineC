@@ -1,6 +1,8 @@
+# VScode folder
 .vscode/*
+
+# generated gateware and utilisation files
 gateware.*
-*.log
 utilisation.json
 
 # pipelineC generated stuff
@@ -12,3 +14,5 @@ pipelinec_makefile_config.h
 # pllice output file
 pll.v
 
+# python
+__pycache__
