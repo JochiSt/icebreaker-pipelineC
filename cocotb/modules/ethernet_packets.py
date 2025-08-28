@@ -22,6 +22,8 @@ class Ethernet_packet(object):
             print("%02X"%(byte), end=" ")
         print()
 
+    def payload(self):
+        return self.bytes
 
 class IP_packet(Ethernet_packet):
     def __init__(self, SRC_MAC, DST_MAC, SRC_IP, DST_IP, data_length=0, ttl=10):
