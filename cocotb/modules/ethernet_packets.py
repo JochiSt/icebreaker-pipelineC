@@ -25,7 +25,8 @@ class Ethernet_packet(object):
     def payload(self):
         return self.bytes
 
-
+    # the following function is heavily inspired by
+    # https://www.codeproject.com/Tips/612847/Generate-a-quick-and-easy-custom-pcap-file-using-P
     def write_pcap(self, file_name):
         #Global header for pcap 2.4
         pcap_global_header =   ('D4 C3 B2 A1'
