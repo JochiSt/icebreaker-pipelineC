@@ -49,9 +49,7 @@ class Ethernet_packet(object):
         import binascii
 
         all_bytes = "".join(self.bytes.split())
-        print(all_bytes)
         pcap_len = self.getByteLength(all_bytes)
-        print("Packet length %d"%(pcap_len))
         hex_str = "%08x"%int(pcap_len)
 
         reverse_hex_str = hex_str[6:] + hex_str[4:6] + hex_str[2:4] + hex_str[:2]
@@ -78,11 +76,21 @@ class IP_packet(Ethernet_packet):
                  'DI DI DI DI'           # Dest IP (Default: 127.0.0.1)
                  )
 
-    def __init__(self, SRC_MAC, DST_MAC, SRC_IP, DST_IP, data_length=0, ttl=10):
+    def __init__(self, SRC_MAC, DST_MAC, SRC_IP, DST_IP, data_length=0):
         super().__init__(SRC_MAC, DST_MAC)
 
-        ip_bytes = self.IP_HEADER.replace('SI SI SI SI', "%08x"%(SRC_IP))
-        ip_bytes = ip_bytes.replace('DI DI DI DI', "%08x"%(DST_IP))
+        ip_bytes = self.IP_HEADER
+
+        if type(SRC_IP) == int:
+            ip_bytes = ip_bytes.replace('SI SI SI SI', "%08x"%(SRC_IP))
+        elif type(SRC_IP) == str:
+            ip_bytes = ip_bytes.replace('SI SI SI SI', SRC_IP)
+
+        if type(DST_IP) == int:
+            ip_bytes = ip_bytes.replace('DI DI DI DI', "%08x"%(DST_IP))
+        elif type(DST_IP) == str:
+            ip_bytes = ip_bytes.replace('DI DI DI DI', DST_IP)
+
         ip_bytes = ip_bytes.replace('XX XX' , "%04x"%( data_length + self.getByteLength(self.IP_HEADER)))
         ip_bytes = ip_bytes.replace('YY YY' , "12 34") # invalid checksum
 
@@ -101,7 +109,7 @@ class UDP_packet(IP_packet):
     def __init__(self, SRC_MAC, DST_MAC, SRC_IP, DST_IP, SRC_PORT, DST_PORT, data):
         udp_length = Ethernet_packet.getByteLength(data) + Ethernet_packet.getByteLength(self.UDP_HEADER)
 
-        super().__init__(SRC_MAC, DST_MAC, SRC_IP, DST_IP, udp_length)
+        super().__init__(SRC_MAC, DST_MAC, SRC_IP, DST_IP, data_length=udp_length)
 
         udp_bytes = self.UDP_HEADER.replace("SP SP", "%04x"%(SRC_PORT))
         udp_bytes = udp_bytes.replace("DP DP", "%04x"%(DST_PORT))
@@ -118,8 +126,8 @@ if __name__ == "__main__":
     udp_packet = UDP_packet(
         0x12_34_56_78_90_AB,
         0x12_34_56_78_90_AC,
-        192_168_1_4,
-        192_168_1_5,
+        "%02x %02x %02x %02x"%(192,168,1,4),
+        "%02x %02x %02x %02x"%(192,168,1,5),
         0x1234,
         0x1234,
         "12 34 56 78"
