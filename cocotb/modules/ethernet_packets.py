@@ -25,6 +25,42 @@ class Ethernet_packet(object):
     def payload(self):
         return self.bytes
 
+
+    def write_pcap(self, file_name):
+        #Global header for pcap 2.4
+        pcap_global_header =   ('D4 C3 B2 A1'
+                                '02 00'         #File format major revision (i.e. pcap <2>.4)
+                                '04 00'         #File format minor revision (i.e. pcap 2.<4>)
+                                '00 00 00 00'
+                                '00 00 00 00'
+                                'FF FF 00 00'
+                                '01 00 00 00')
+
+        #pcap packet header that must preface every packet
+        pcap_packet_header =   ('AA 77 9F 47'
+                                '90 A2 04 00'
+                                'XX XX XX XX'   #Frame Size (little endian)
+                                'YY YY YY YY')  #Frame Size (little endian)
+
+        import binascii
+
+        pcap_len = len(self.bytes)
+
+        hex_str = "%08x"%int(pcap_len)
+
+        reverse_hex_str = hex_str[6:] + hex_str[4:6] + hex_str[2:4] + hex_str[:2]
+        pcaph = pcap_packet_header.replace('XX XX XX XX',reverse_hex_str)
+        pcaph = pcaph.replace('YY YY YY YY',reverse_hex_str)
+
+        bytestring = pcap_global_header + pcaph + " ".join([ "%02X"%(b) for b in self.bytes ])
+
+        bytelist = bytestring.split()
+        print(bytelist)
+        bytes = binascii.a2b_hex(''.join(bytelist))
+        bitout = open(file_name, 'wb')
+        bitout.write(bytes)
+
+
 class IP_packet(Ethernet_packet):
     def __init__(self, SRC_MAC, DST_MAC, SRC_IP, DST_IP, data_length=0, ttl=10):
         super().__init__(SRC_MAC, DST_MAC)
@@ -39,7 +75,7 @@ class IP_packet(Ethernet_packet):
 
         header_checksum = 0x00  # ignore header checksum
 
-        TTL = ttl    # hop count
+        TTL = ttl     # hop count
         protocol = 17 # UDP
 
         # IP header
@@ -72,3 +108,5 @@ if __name__ == "__main__":
         )
 
     udp_packet.print()
+
+    udp_packet.write_pcap('output.pcap')
