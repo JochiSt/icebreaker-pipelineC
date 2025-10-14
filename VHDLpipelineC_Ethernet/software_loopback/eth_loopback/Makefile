@@ -1,5 +1,5 @@
 
-OBJECTS += eth_sw.o
+OBJECTS += ../eth_sw.o
 
 loopback_test: $(OBJECTS) loopback_test.o
 	gcc -o $@ $^
