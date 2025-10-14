@@ -10,4 +10,4 @@ clean:
 	rm -rf *.o
 
 %.o: %.c
-	$(CC) -c $^ -o $@
+	$(CC) -c $^ -I../ -o $@
