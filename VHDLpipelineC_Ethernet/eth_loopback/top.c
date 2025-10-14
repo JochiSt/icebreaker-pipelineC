@@ -67,41 +67,43 @@ void uart_main() {
 #include "../fpga_mac.h"
 
 // Instead of loopback, can wire up a demo of doing some work
-// #define ETH_DEMO_IS_WORK_PIPELINE
+#define ETH_DEMO_IS_WORK_PIPELINE
 
 #ifdef ETH_DEMO_IS_WORK_PIPELINE
-// Include definition of work to compute
-#include "examples/net/work.h"
+    // Include definition of work to compute
+    #include "examples/net/work.h"
 
-// Global stream pipeline interface looks same as FIFOs
-#include "global_func_inst.h"
-GLOBAL_VALID_READY_PIPELINE_INST(work_pipeline, work_outputs_t, work, work_inputs_t, 4)
-// De/serialize 1 byte at a time to/from the types for the work compute
-#include "stream/deserializer.h"
-#include "stream/serializer.h"
-// axis_packet deserialize variant to handle min eth frame size padding on incoming frames
-axis_packet_to_type(work_deserialize, 8, work_inputs_t)
+    // Global stream pipeline interface looks same as FIFOs
+    #include "global_func_inst.h"
+    GLOBAL_VALID_READY_PIPELINE_INST(work_pipeline, work_outputs_t, work, work_inputs_t, 4)
+    // De/serialize 1 byte at a time to/from the types for the work compute
+    #include "stream/deserializer.h"
+    #include "stream/serializer.h"
+    // axis_packet deserialize variant to handle min eth frame size padding on incoming frames
+    axis_packet_to_type(work_deserialize, 8, work_inputs_t)
     type_byte_serializer(work_serialize, work_outputs_t, 1)
 
 #else
-// Loopback structured as separate RX and TX MAINs
-// since typical to have different clocks for RX and TX
-// (only one clock in this example though, could write as one MAIN)
-// Loopback RX to TX with fifos
-//  the FIFOs have valid,ready streaming handshake interfaces
-GLOBAL_STREAM_FIFO(axis8_t, loopback_payload_fifo, 32) // One to hold the payload data
+    // Loopback structured as separate RX and TX MAINs
+    // since typical to have different clocks for RX and TX
+    // (only one clock in this example though, could write as one MAIN)
+    // Loopback RX to TX with fifos
+    //  the FIFOs have valid,ready streaming handshake interfaces
+    GLOBAL_STREAM_FIFO(axis8_t, loopback_payload_fifo, 32) // One to hold the payload data
 #endif
 
     // Work demo and regular loopback use headers FIFO
     GLOBAL_STREAM_FIFO(eth_header_t, loopback_headers_fifo, 2) // another one to hold the headers
 
     MAIN_MHZ(rx_main, PLL_CLK_MHZ) void rx_main() {
-// Receive the ETH frame
+
+    // Receive the ETH frame
 #ifdef ETH_DEMO_IS_WORK_PIPELINE
     // Eth rx ready if deser+header fifo ready
     uint1_t deser_ready_for_input;
-#pragma FEEDBACK deser_ready_for_input
+    #pragma FEEDBACK deser_ready_for_input
     uint1_t eth_rx_out_ready = deser_ready_for_input & loopback_headers_fifo_in_ready;
+
 #else
     // Eth rx ready if payload fifo+header fifo ready
     uint1_t eth_rx_out_ready = loopback_payload_fifo_in_ready & loopback_headers_fifo_in_ready;
@@ -149,7 +151,7 @@ void tx_main() {
 #ifdef ETH_DEMO_IS_WORK_PIPELINE
     // Serialize results coming out of work pipeline
     uint1_t ser_output_ready;
-#pragma FEEDBACK ser_output_ready
+    #pragma FEEDBACK ser_output_ready
     work_serialize_t ser = work_serialize(
         work_pipeline_out.data,
         work_pipeline_out.valid,
