@@ -9,3 +9,22 @@
 # from pipelineC / GHDL
 *.o
 *.cf
+
+# VScode folder
+.vscode/*
+
+# generated gateware and utilisation files
+gateware.*
+utilisation.json
+
+# pipelineC generated stuff
+pipelinec_output/*
+lextab.py
+yacctab.py
+pipelinec_makefile_config.h
+
+# pllice output file
+pll.v
+
+# python
+__pycache__

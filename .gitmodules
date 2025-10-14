@@ -1,0 +1,3 @@
+[submodule "cocotb/modules/cocotbext-eth"]
+	path = cocotb/modules/cocotbext-eth
+	url = https://github.com/svancau/cocotbext-eth.git
