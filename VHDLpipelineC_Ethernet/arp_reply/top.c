@@ -2,7 +2,13 @@
 #include "top.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// Blinky part of demo
+//      ____  _      _____ _  ___   ___     __
+//     |  _ \| |    |_   _| |/ / \ | \ \   / /
+//     | |_) | |      | | | ' /|  \| |\ \_/ /
+//     |  _ <| |      | | |  < | . ` | \   /
+//     | |_) | |____ _| |_| . \| |\  |  | |
+//     |____/|______|_____|_|\_\_| \_|  |_|
+//
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "../pinout/pinout_LEDs.h"
@@ -22,7 +28,13 @@ void blinky_main() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Instantiate UART MAC module
+//      _    _         _____ _______
+//     | |  | |  /\   |  __ \__   __|
+//     | |  | | /  \  | |__) | | |
+//     | |  | |/ /\ \ |  _  /  | |
+//     | |__| / ____ \| | \ \  | |
+//      \____/_/    \_\_|  \_\ |_|
+//
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "../pinout/pinout_UART.h"
@@ -50,7 +62,13 @@ void uart_main() {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Instantiate Ethernet module
+//      ______ _______ _    _ ______ _____  _   _ ______ _______
+//     |  ____|__   __| |  | |  ____|  __ \| \ | |  ____|__   __|
+//     | |__     | |  | |__| | |__  | |__) |  \| | |__     | |
+//     |  __|    | |  |  __  |  __| |  _  /| . ` |  __|    | |
+//     | |____   | |  | |  | | |____| | \ \| |\  | |____   | |
+//     |______|  |_|  |_|  |_|______|_|  \_\_| \_|______|  |_|
+//
 ////////////////////////////////////////////////////////////////////////////////
 #include "../pinout/pinout_LAN8720.h"
 #include "net/rmii_wires.c"
@@ -93,12 +111,21 @@ void uart_main() {
     GLOBAL_STREAM_FIFO(axis8_t, loopback_payload_fifo, 32) // One to hold the payload data
 #endif
 
-    // Work demo and regular loopback use headers FIFO
-    GLOBAL_STREAM_FIFO(eth_header_t, loopback_headers_fifo, 2) // another one to hold the headers
+// ARP and regular loopback use headers FIFO
+GLOBAL_STREAM_FIFO(eth_header_t, loopback_headers_fifo, 2) // another one to hold the headers
 
-    MAIN_MHZ(rx_main, PLL_CLK_MHZ) void rx_main() {
+////////////////////////////////////////////////////////////////////////////////
+//      _____  __   __
+//     |  __ \ \ \ / /
+//     | |__) | \ V /
+//     |  _  /   > <
+//     | | \ \  / . \
+//     |_|  \_\/_/ \_\
+//
+// Receive the ETH frame
+MAIN_MHZ(rx_main, PLL_CLK_MHZ) void rx_main() {
 
-    // Receive the ETH frame
+
 #ifdef ETH_ARP_DEMO
     // Eth rx ready if deser+header fifo ready
     uint1_t deser_ready_for_input;
@@ -149,6 +176,16 @@ void uart_main() {
     loopback_headers_fifo_in.valid = frame.data.start_of_payload & valid_and_ready;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//      _________   __
+//     |__   __\ \ / /
+//        | |   \ V /
+//        | |    > <
+//        | |   / . \
+//        |_|  /_/ \_\
+//
+
+// TODO: if nothing is returned from ARP do not send a packet
 MAIN_MHZ(tx_main, PLL_CLK_MHZ)
 void tx_main() {
     // Wire up the ETH frame to send
@@ -183,6 +220,7 @@ void tx_main() {
 
     // Read DVR handshake from inputs
     uint1_t valid_and_ready = frame.valid & eth_tx.frame_ready;
+
 #ifdef ETH_ARP_DEMO
     // Read payload from serializer if was ready
     ser_output_ready = valid_and_ready; // FEEDBACK
