@@ -71,18 +71,21 @@ arp_reply_t arp(arp_request_t req)
 {
     arp_reply_t reply;
 
-    reply.hardware_type = ARP_HARDWARE_TYPE;
-    reply.protocol_type = ARP_PROTOCOL_TYPE;
-    reply.hardware_size = ARP_HARDWARE_SIZE;
-    reply.protocol_size = ARP_PROTOCOL_SIZE;
+    if( req.target_protocol_addr == FPGA_IP){
 
-    reply.operation = ARP_OPCODE_REPLY;
+        reply.hardware_type = ARP_HARDWARE_TYPE;
+        reply.protocol_type = ARP_PROTOCOL_TYPE;
+        reply.hardware_size = ARP_HARDWARE_SIZE;
+        reply.protocol_size = ARP_PROTOCOL_SIZE;
 
-    reply.target_hardware_addr = req.sender_hardware_addr;
-    reply.target_protocol_addr = req.sender_protocol_addr;
+        reply.operation = ARP_OPCODE_REPLY;
 
-    reply.sender_hardware_addr = FPGA_MAC;
-    reply.sender_protocol_addr = FPGA_IP;
+        reply.target_hardware_addr = req.sender_hardware_addr;
+        reply.target_protocol_addr = req.sender_protocol_addr;
+
+        reply.sender_hardware_addr = FPGA_MAC_LE;
+        reply.sender_protocol_addr = FPGA_IP;
+    }
 
     return reply;
 }
