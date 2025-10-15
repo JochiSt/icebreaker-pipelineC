@@ -5,8 +5,8 @@ ICEPACK = icepack
 ICEPLL = icepll
 PIPELINEC = pipelinec
 
-PIPELINEC_FOLDER = eth_loopback
-#PIPELINEC_FOLDER = udp_loopback
+#PIPELINEC_FOLDER = eth_loopback
+PIPELINEC_FOLDER = arp_reply
 
 
 TOP_NAME ?= top
