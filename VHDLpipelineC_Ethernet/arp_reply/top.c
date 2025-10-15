@@ -84,32 +84,19 @@ void uart_main() {
 // MAC address info we want the fpga to have (shared with software)
 #include "../fpga_mac.h"
 
-// Instead of loopback, use ARP packages
-#define ETH_ARP_DEMO
+// Include definition of work to compute
+#include "arp.h"
 
-#ifdef ETH_ARP_DEMO
-    // Include definition of work to compute
-    #include "arp.h"
+// Global stream pipeline interface looks same as FIFOs
+#include "global_func_inst.h"
+GLOBAL_VALID_READY_PIPELINE_INST(arp_pipeline, arp_reply_t, arp, arp_request_t, 4)
 
-    // Global stream pipeline interface looks same as FIFOs
-    #include "global_func_inst.h"
-    GLOBAL_VALID_READY_PIPELINE_INST(arp_pipeline, arp_reply_t, arp, arp_request_t, 4)
-
-    // De/serialize 1 byte at a time to/from the types for the work compute
-    #include "stream/deserializer.h"
-    #include "stream/serializer.h"
-    // axis_packet deserialize variant to handle min eth frame size padding on incoming frames
-    axis_packet_to_type(arp_deserialize, 8, arp_request_t)
-    type_byte_serializer(arp_serialize, arp_reply_t, 1)
-
-#else
-    // Loopback structured as separate RX and TX MAINs
-    // since typical to have different clocks for RX and TX
-    // (only one clock in this example though, could write as one MAIN)
-    // Loopback RX to TX with fifos
-    //  the FIFOs have valid,ready streaming handshake interfaces
-    GLOBAL_STREAM_FIFO(axis8_t, loopback_payload_fifo, 32) // One to hold the payload data
-#endif
+// De/serialize 1 byte at a time to/from the types for the work compute
+#include "stream/deserializer.h"
+#include "stream/serializer.h"
+// axis_packet deserialize variant to handle min eth frame size padding on incoming frames
+axis_packet_to_type(arp_deserialize, 8, arp_request_t)
+type_byte_serializer(arp_serialize, arp_reply_t, 1)
 
 // ARP and regular loopback use headers FIFO
 GLOBAL_STREAM_FIFO(eth_header_t, loopback_headers_fifo, 2) // another one to hold the headers
@@ -122,20 +109,12 @@ GLOBAL_STREAM_FIFO(eth_header_t, loopback_headers_fifo, 2) // another one to hol
 //     | | \ \  / . \
 //     |_|  \_\/_/ \_\
 //
-// Receive the ETH frame
+////////////////////////////////////////////////////////////////////////////////
 MAIN_MHZ(rx_main, PLL_CLK_MHZ) void rx_main() {
-
-
-#ifdef ETH_ARP_DEMO
     // Eth rx ready if deser+header fifo ready
     uint1_t deser_ready_for_input;
     #pragma FEEDBACK deser_ready_for_input
     uint1_t eth_rx_out_ready = deser_ready_for_input & loopback_headers_fifo_in_ready;
-
-#else
-    // Eth rx ready if payload fifo+header fifo ready
-    uint1_t eth_rx_out_ready = loopback_payload_fifo_in_ready & loopback_headers_fifo_in_ready;
-#endif
 
     // The rx 'parsing' module
     eth_8_rx_t eth_rx = eth_8_rx(eth_rx_mac_axis_out, eth_rx_out_ready);
@@ -144,17 +123,11 @@ MAIN_MHZ(rx_main, PLL_CLK_MHZ) void rx_main() {
     // Filter out all but matching destination mac frames including broadcast ones
     uint1_t mac_match = frame.data.header.dst_mac == FPGA_MAC || frame.data.header.dst_mac == BROADCAST_MAC;
 
-#ifdef ETH_ARP_DEMO
     // Match Ethertype to identify the protocol
     uint1_t arp_match = frame.data.header.ethertype == ETHERTYPE_ARP;
     // Write DVR handshake if mac match and protocol == ARP
     uint1_t valid_and_ready = frame.valid & eth_rx_out_ready & mac_match & arp_match;
-#else
-    // Write DVR handshake if mac match
-    uint1_t valid_and_ready = frame.valid & eth_rx_out_ready & mac_match;
-#endif
 
-#ifdef ETH_ARP_DEMO
     // Deserialize and connect to work pipeline input
     stream(axis8_t) deser_in_stream;
     deser_in_stream.data = frame.data.payload;
@@ -166,11 +139,7 @@ MAIN_MHZ(rx_main, PLL_CLK_MHZ) void rx_main() {
     deser_ready_for_input = deser.packet_ready; // FEEDBACK
     arp_pipeline_in.data = deser.data;
     arp_pipeline_in.valid = deser.valid;
-#else
-    // Frame payload and headers go into separate fifos
-    loopback_payload_fifo_in.data = frame.data.payload;
-    loopback_payload_fifo_in.valid = valid_and_ready;
-#endif
+
     // Header only written once at the start of data packet
     loopback_headers_fifo_in.data = frame.data.header;
     loopback_headers_fifo_in.valid = frame.data.start_of_payload & valid_and_ready;
@@ -184,6 +153,7 @@ MAIN_MHZ(rx_main, PLL_CLK_MHZ) void rx_main() {
 //        | |   / . \
 //        |_|  /_/ \_\
 //
+////////////////////////////////////////////////////////////////////////////////
 
 // TODO: if nothing is returned from ARP do not send a packet
 MAIN_MHZ(tx_main, PLL_CLK_MHZ)
@@ -195,7 +165,6 @@ void tx_main() {
     frame.data.header.dst_mac = frame.data.header.src_mac; // Send back to where came from
     frame.data.header.src_mac = FPGA_MAC;                  // From FPGA
 
-#ifdef ETH_ARP_DEMO
     // Serialize results coming out of work pipeline
     uint1_t ser_output_ready;
     #pragma FEEDBACK ser_output_ready
@@ -203,16 +172,12 @@ void tx_main() {
         arp_pipeline_out.data,
         arp_pipeline_out.valid,
         ser_output_ready);
+
     // Header and serializer payload need to be valid to send
     arp_pipeline_out_ready = ser.in_data_ready;
     frame.data.payload.tdata = ser.out_data;
     frame.data.payload.tlast = ser.last;
     frame.valid = ser.valid & loopback_headers_fifo_out.valid;
-#else
-    // Header and loopback payload need to be valid to send
-    frame.data.payload = loopback_payload_fifo_out.data;
-    frame.valid = loopback_payload_fifo_out.valid & loopback_headers_fifo_out.valid;
-#endif
 
     // The tx 'building' module
     eth_8_tx_t eth_tx = eth_8_tx(frame, eth_tx_mac_input_ready);
@@ -221,13 +186,9 @@ void tx_main() {
     // Read DVR handshake from inputs
     uint1_t valid_and_ready = frame.valid & eth_tx.frame_ready;
 
-#ifdef ETH_ARP_DEMO
     // Read payload from serializer if was ready
     ser_output_ready = valid_and_ready; // FEEDBACK
-#else
-    // Read payload from fifo if was ready
-    loopback_payload_fifo_out_ready = valid_and_ready;
-#endif
+
     // Read header if was ready at end of packet
     loopback_headers_fifo_out_ready = frame.data.payload.tlast & valid_and_ready;
 }
