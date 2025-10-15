@@ -3,7 +3,8 @@
 // MAC0 is most signficant byte
 // MAC5 is least signficant byte
 // "0:1:2:3:4:5"
-
+////////////////////////////////////////////////////////////////////////////////
+// FPGA MAC address
 #define FPGA_MAC0	0xA0
 #define FPGA_MAC1	0xB1
 #define FPGA_MAC2	0xC2
@@ -12,5 +13,17 @@
 #define FPGA_MAC5	0xF5
 
 uint8_t FPGA_MAC_BYTES[6] = {FPGA_MAC0, FPGA_MAC1, FPGA_MAC2, FPGA_MAC3, FPGA_MAC4, FPGA_MAC5};
-
 #define FPGA_MAC uint8_array6_be(FPGA_MAC_BYTES)
+
+////////////////////////////////////////////////////////////////////////////////
+// Broadcast MAC address
+#define BROADCAST_MAC0   0xFF
+#define BROADCAST_MAC1   0xFF
+#define BROADCAST_MAC2   0xFF
+#define BROADCAST_MAC3   0xFF
+#define BROADCAST_MAC4   0xFF
+#define BROADCAST_MAC5   0xFF
+
+uint8_t BROADCAST_MAC_BYTES[6] = {BROADCAST_MAC0, BROADCAST_MAC1, BROADCAST_MAC2, BROADCAST_MAC3, BROADCAST_MAC4, BROADCAST_MAC5};
+
+#define BROADCAST_MAC uint8_array6_be(BROADCAST_MAC_BYTES)
