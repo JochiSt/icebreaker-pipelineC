@@ -13,7 +13,8 @@ sim_pre_cmd = "mkdir -p work"
 sim_post_cmd = "ghdl -r axi2vhdl_tb --stop-time=600ns --wave=axi2vhdl_tb.ghw"
 
 incl_makefiles = [
-#    "MakeProg.mk",
+    "MakePipelineC.mk",
+    "../MakeView.mk"
 ]
 
 modules = {
