@@ -25,16 +25,19 @@ hs_out(my_axis_32_t) my_func(hs_in(my_axis_32_t) inputs) {
 
     // Static = register
     static stream(my_axis_32_t) buff;
+    uint32_t buff_data;
 
     outputs.stream_out = buff;
     outputs.ready_for_stream_in = ~buff.valid;
 
-    // Input ready writes buffer
+    // Input ready writes buffer and do some calculations
     if (outputs.ready_for_stream_in) {
         buff = inputs.stream_in;
-
-        buff.data.data[0] += 1;
     }
+
+    buff_data = uint8_array4_le(buff.data.data);
+    buff_data += 1;
+    UINT_TO_BYTE_ARRAY(buff.data.data,4,buff_data)
 
     // Output ready clears buffer
     if (inputs.ready_for_stream_out) {
