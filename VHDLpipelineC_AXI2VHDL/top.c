@@ -20,47 +20,24 @@ DECL_HANDSHAKE_INST_TYPE(my_axis_32_t, my_axis_32_t) // out type, in type
 // Single cycle stateful(static locals) function (a state machine)
 // for working with an input and output handshake
 hs_out(my_axis_32_t) my_func( hs_in(my_axis_32_t) inputs ){
-  // Demo logic for skid buffer
-  // Static = register
-
-  static stream(my_axis_32_t) buff;
-  static stream(my_axis_32_t) skid_buff;
-  // Idea of skid buffer is to switch between two buffers
-  // to skid to a stop while avoiding a comb. path from
-  //  ready_for_axis_out -> ready_for_axis_in
-  // loosely like a 2-element FIFO...
-  static uint1_t output_is_skid_buff; // aka input_is_buff
 
   hs_out(my_axis_32_t) outputs; // Default value all zeros
 
-  // Connect output based on buffer in use
-  // ready for input if other buffer is empty(not valid)
-  if(output_is_skid_buff){
-    outputs.stream_out = skid_buff;
-    outputs.ready_for_stream_in = ~buff.valid;
-  }else{
+  // Static = register
+  static stream(my_axis_32_t) buff;
+
     outputs.stream_out = buff;
-    outputs.ready_for_stream_in = ~skid_buff.valid;
-  }
+    outputs.ready_for_stream_in = ~buff.valid;
 
   // Input ready writes buffer
   if(outputs.ready_for_stream_in){
-    if(output_is_skid_buff){
-      buff = inputs.stream_in;
-    }else{
-      skid_buff = inputs.stream_in;
-    }
+    buff = inputs.stream_in;
   }
 
   // Output ready clears buffer
   // and switches to next buffer
   if(inputs.ready_for_stream_out){
-    if(output_is_skid_buff){
-      skid_buff.valid = 0;
-    }else{
-      buff.valid = 0;
-    }
-    output_is_skid_buff = ~output_is_skid_buff;
+    buff.valid = 0;
   }
 
   return outputs;
