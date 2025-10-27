@@ -40,13 +40,14 @@ BEGIN
             -- All clocks
             clk_100p0 => clk_100p0,
 
-            -- Global wires marked as top level IO
+            -- slave axi receive data from other module
             s_axis_tdata  => uTDATA_TXD,
             s_axis_tkeep  => "0000",
             s_axis_tlast  => uTLAST_TXD,
             s_axis_tvalid => uTVALID_TXD,
             s_axis_tready => uTREADY_TXD,
 
+            -- master axi send data to other module
             m_axis_tdata  => uTDATA_RXD,
             m_axis_tkeep  => OPEN,
             m_axis_tlast  => uTLAST_RXD,
