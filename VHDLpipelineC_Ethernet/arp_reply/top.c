@@ -125,6 +125,7 @@ MAIN_MHZ(rx_main, PLL_CLK_MHZ) void rx_main() {
 
     // Match Ethertype to identify the protocol
     uint1_t arp_match = frame.data.header.ethertype == ETHERTYPE_ARP;
+
     // Write DVR handshake if mac match and protocol == ARP
     uint1_t valid_and_ready = frame.valid & eth_rx_out_ready & mac_match & arp_match;
 
@@ -158,15 +159,9 @@ MAIN_MHZ(rx_main, PLL_CLK_MHZ) void rx_main() {
 // TODO: if nothing is returned from ARP do not send a packet
 MAIN_MHZ(tx_main, PLL_CLK_MHZ)
 void tx_main() {
-    // Wire up the ETH frame to send
-    stream(eth8_frame_t) frame;
-    // Header matches what was sent other than SRC+DST macs
-    frame.data.header = loopback_headers_fifo_out.data;
-    frame.data.header.dst_mac = frame.data.header.src_mac; // Send back to where came from
-    frame.data.header.src_mac = FPGA_MAC;                  // From FPGA
-
     // Serialize results coming out of work pipeline
     uint1_t ser_output_ready;
+
     #pragma FEEDBACK ser_output_ready
     arp_serialize_t ser = arp_serialize(
         arp_pipeline_out.data,
@@ -175,6 +170,13 @@ void tx_main() {
 
     // Header and serializer payload need to be valid to send
     arp_pipeline_out_ready = ser.in_data_ready;
+
+    // Wire up the ETH frame to send
+    stream(eth8_frame_t) frame;
+    // Header matches what was sent other than SRC+DST macs
+    frame.data.header = loopback_headers_fifo_out.data;
+    frame.data.header.dst_mac = frame.data.header.src_mac; // Send back to where came from
+    frame.data.header.src_mac = FPGA_MAC;                  // From FPGA
     frame.data.payload.tdata = ser.out_data;
     frame.data.payload.tlast = ser.last;
     frame.valid = ser.valid & loopback_headers_fifo_out.valid;
