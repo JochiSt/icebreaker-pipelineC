@@ -80,7 +80,7 @@ BEGIN
 
                         IF (Counter < (LENGTH - 1)) THEN
                             Counter   <= Counter + 1;
-                            NextState <= WaitForReady;
+                            NextState <= WaitForTriggerHigh;
                         ELSE
                             Counter   <= 0;
                             NextState <= WaitForTriggerHigh;
