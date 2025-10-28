@@ -9,6 +9,7 @@
 # from pipelineC / GHDL
 *.o
 *.cf
+work
 
 # VScode folder
 .vscode/*
