@@ -57,7 +57,7 @@ BEGIN
 
     axi_slave_0 : ENTITY work.axi_slave
         GENERIC MAP(
-            FIFO_SIZE => 32
+            FIFO_SIZE => 1
         )
         PORT MAP(
             ACLK    => clk_100p0,
@@ -92,10 +92,11 @@ BEGIN
     uTDATA_TXD <= UNSIGNED(TDATA_TXD);
     TREADY_TXD <= STD_LOGIC(uTREADY_TXD(0));
     uTVALID_TXD(0) <= TVALID_TXD;
+    uTLAST_TXD(0) <= TLAST_TXD;
 
     TDATA_RXD <= STD_LOGIC_VECTOR(uTDATA_RXD);
     uTREADY_RXD(0) <= TREADY_RXD;
-    TVALID_RXD <= STD_LOGIC(uTVALID_TXD(0));
+    TVALID_RXD <= STD_LOGIC(uTVALID_RXD(0));
 
     ----------------------------------------------------------------------------
     p_clk100MHz : PROCESS
