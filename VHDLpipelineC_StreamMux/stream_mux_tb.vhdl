@@ -63,16 +63,33 @@ BEGIN
 
     axi_slave_0 : ENTITY work.axi_slave
         GENERIC MAP(
-            FIFO_SIZE => 32
+            FIFO_SIZE => 1
         )
         PORT MAP(
             ACLK    => clk_100p0,
             ARESETn => '1',
 
-            TDATA_RXD  => TDATA_RXD,
-            TREADY_RXD => TREADY_RXD,
-            TVALID_RXD => TVALID_RXD,
-            TLAST_RXD  => TLAST_RXD,
+            TDATA_RXD  => TDATA_RXD_0,
+            TREADY_RXD => TREADY_RXD_0,
+            TVALID_RXD => TVALID_RXD_0,
+            TLAST_RXD  => TLAST_RXD_0,
+
+            Index   => "00000",
+            DataOut => OPEN
+        );
+
+    axi_slave_1 : ENTITY work.axi_slave
+        GENERIC MAP(
+            FIFO_SIZE => 1
+        )
+        PORT MAP(
+            ACLK    => clk_100p0,
+            ARESETn => '1',
+
+            TDATA_RXD  => TDATA_RXD_1,
+            TREADY_RXD => TREADY_RXD_1,
+            TVALID_RXD => TVALID_RXD_1,
+            TLAST_RXD  => TLAST_RXD_1,
 
             Index   => "00000",
             DataOut => OPEN
@@ -99,9 +116,9 @@ BEGIN
     TREADY_TXD <= STD_LOGIC(uTREADY_TXD(0));
     uTVALID_TXD(0) <= TVALID_TXD;
 
-    TDATA_RXD <= STD_LOGIC_VECTOR(uTDATA_RXD);
-    uTREADY_RXD(0) <= TREADY_RXD;
-    TVALID_RXD <= STD_LOGIC(uTVALID_TXD(0));
+    TDATA_RXD <= STD_LOGIC_VECTOR(uTDATA_RXD_0);
+    uTREADY_RXD(0) <= TREADY_RXD_0;
+    TVALID_RXD_0 <= STD_LOGIC(uTVALID_RXD(0));
 
     ----------------------------------------------------------------------------
     p_clk100MHz : PROCESS
