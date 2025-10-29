@@ -1,11 +1,11 @@
 // based on handshake_io.c of pipelineC examples
 
 #include "arrays.h"
-#include "handshake/handshake.h"
 #include "axi/axis.h"
+#include "handshake/handshake.h"
 
 // declare handshakes
-//DECL_STREAM_TYPE(axis32_t)
+// DECL_STREAM_TYPE(axis32_t)
 DECL_HANDSHAKE_TYPE(axis32_t)
 DECL_HANDSHAKE_INST_TYPE(axis32_t, axis32_t) // out type, in type
 
@@ -13,27 +13,33 @@ DECL_HANDSHAKE_INST_TYPE(axis32_t, axis32_t) // out type, in type
 // for working with an input and output handshake
 hs_out(axis32_t) my_func(hs_in(axis32_t) inputs) {
 
-    hs_out(axis32_t) outputs; // Default value all zeros
+    static hs_out(axis32_t) outputs; // Default value all zeros
 
-    // Static = register
-    static stream(axis32_t) buff;
-    uint32_t buff_data;
+    static uint1_t new_data = 0;
 
-    outputs.stream_out = buff;
-    outputs.ready_for_stream_in = ~buff.valid;
+    // if we have no new data -> ready for new data
+    outputs.ready_for_stream_in = ~new_data;
 
     // Input ready writes buffer and do some calculations
-    if (outputs.ready_for_stream_in) {
-        buff = inputs.stream_in;
+    if (inputs.stream_in.valid) {
+        if (~new_data) {
+            uint32_t buff_data;
+            buff_data = uint8_array4_le(inputs.stream_in.data.tdata);
+            buff_data += 1;
+            UINT_TO_BYTE_ARRAY(outputs.stream_out.data.tdata, 4, buff_data)
+
+            new_data = 1; // mark, that new data is available
+        }
     }
 
-    buff_data = uint8_array4_le(buff.data.tdata);
-    buff_data += 1;
-    UINT_TO_BYTE_ARRAY(buff.data.tdata, 4, buff_data)
-
-    // Output ready clears buffer
-    if (inputs.ready_for_stream_out) {
-        buff.valid = 0;
+    // Output ready marks, that we are ready for new data
+    if (new_data) {
+        if (inputs.ready_for_stream_out) {
+            new_data = 0; // data has been read out
+        }
+        outputs.stream_out.valid = 1;
+    } else {
+        outputs.stream_out.valid = 0;
     }
 
     return outputs;
