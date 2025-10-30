@@ -1,0 +1,5 @@
+pipelinec_output
+work
+Makefile
+*.ghw
+axi2vhdl_tb
