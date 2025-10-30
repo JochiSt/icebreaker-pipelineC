@@ -12,15 +12,29 @@ ARCHITECTURE rtl OF stream_mux_tb IS
 
     SIGNAL trigger : STD_LOGIC := '0';
 
-    SIGNAL TDATA_RXD  : STD_LOGIC_VECTOR(31 DOWNTO 0); -- receiving data
-    SIGNAL TREADY_RXD : STD_LOGIC;                     -- mark that we are ready for new data
-    SIGNAL TVALID_RXD : STD_LOGIC;                     -- master signaling valid data
-    SIGNAL TLAST_RXD  : STD_LOGIC;                     -- master signaling last data
+    ----------------------------------------------------------------------------
+    -- first AXI slave
+    SIGNAL TDATA_RXD_0  : STD_LOGIC_VECTOR(31 DOWNTO 0); -- receiving data
+    SIGNAL TREADY_RXD_0 : STD_LOGIC;                     -- mark that we are ready for new data
+    SIGNAL TVALID_RXD_0 : STD_LOGIC;                     -- master signaling valid data
+    SIGNAL TLAST_RXD_0  : STD_LOGIC;                     -- master signaling last data
 
-    SIGNAL uTDATA_RXD  : UNSIGNED(31 DOWNTO 0); -- receiving data
-    SIGNAL uTREADY_RXD : UNSIGNED(0 DOWNTO 0);                     -- mark that we are ready for new data
-    SIGNAL uTVALID_RXD : UNSIGNED(0 DOWNTO 0);                     -- master signaling valid data
-    SIGNAL uTLAST_RXD  : UNSIGNED(0 DOWNTO 0);                     -- master signaling last data
+    SIGNAL uTDATA_RXD_0  : UNSIGNED(31 DOWNTO 0); -- receiving data
+    SIGNAL uTREADY_RXD_0 : UNSIGNED(0 DOWNTO 0);  -- mark that we are ready for new data
+    SIGNAL uTVALID_RXD_0 : UNSIGNED(0 DOWNTO 0);  -- master signaling valid data
+    SIGNAL uTLAST_RXD_0  : UNSIGNED(0 DOWNTO 0);  -- master signaling last data
+
+    ----------------------------------------------------------------------------
+    -- second AXI slave
+    SIGNAL TDATA_RXD_1  : STD_LOGIC_VECTOR(31 DOWNTO 0); -- receiving data
+    SIGNAL TREADY_RXD_1 : STD_LOGIC;                     -- mark that we are ready for new data
+    SIGNAL TVALID_RXD_1 : STD_LOGIC;                     -- master signaling valid data
+    SIGNAL TLAST_RXD_1  : STD_LOGIC;                     -- master signaling last data
+
+    SIGNAL uTDATA_RXD_1  : UNSIGNED(31 DOWNTO 0); -- receiving data
+    SIGNAL uTREADY_RXD_1 : UNSIGNED(0 DOWNTO 0);  -- mark that we are ready for new data
+    SIGNAL uTVALID_RXD_1 : UNSIGNED(0 DOWNTO 0);  -- master signaling valid data
+    SIGNAL uTLAST_RXD_1  : UNSIGNED(0 DOWNTO 0);  -- master signaling last data
 
     ----------------------------------------------------------------------------
     SIGNAL TDATA_TXD  : STD_LOGIC_VECTOR(31 DOWNTO 0); -- data, which is transmitted
@@ -48,17 +62,17 @@ BEGIN
             s_axis_tready => uTREADY_TXD,
 
             -- master axi send data to other module
-            m_axis0_tdata  => uTDATA_RXD,
+            m_axis0_tdata  => uTDATA_RXD_0,
             m_axis0_tkeep  => OPEN,
-            m_axis0_tlast  => uTLAST_RXD,
-            m_axis0_tvalid => uTVALID_RXD,
-            m_axis0_tready => uTREADY_RXD,
+            m_axis0_tlast  => uTLAST_RXD_0,
+            m_axis0_tvalid => uTVALID_RXD_0,
+            m_axis0_tready => uTREADY_RXD_0,
 
-            m_axis1_tdata  => OPEN,
+            m_axis1_tdata  => uTDATA_RXD_1,
             m_axis1_tkeep  => OPEN,
-            m_axis1_tlast  => OPEN,
-            m_axis1_tvalid => OPEN,
-            m_axis1_tready => uTREADY_RXD
+            m_axis1_tlast  => uTLAST_RXD_1,
+            m_axis1_tvalid => uTVALID_RXD_1,
+            m_axis1_tready => uTREADY_RXD_1
         );
 
     axi_slave_0 : ENTITY work.axi_slave
@@ -112,13 +126,17 @@ BEGIN
         );
 
     ----------------------------------------------------------------------------
-    uTDATA_TXD <= UNSIGNED(TDATA_TXD);
-    TREADY_TXD <= STD_LOGIC(uTREADY_TXD(0));
+    uTDATA_TXD     <= UNSIGNED(TDATA_TXD);
+    TREADY_TXD     <= STD_LOGIC(uTREADY_TXD(0));
     uTVALID_TXD(0) <= TVALID_TXD;
 
-    TDATA_RXD <= STD_LOGIC_VECTOR(uTDATA_RXD_0);
-    uTREADY_RXD(0) <= TREADY_RXD_0;
-    TVALID_RXD_0 <= STD_LOGIC(uTVALID_RXD(0));
+    TDATA_RXD_0      <= STD_LOGIC_VECTOR(uTDATA_RXD_0);
+    uTREADY_RXD_0(0) <= TREADY_RXD_0;
+    TVALID_RXD_0     <= STD_LOGIC(uTVALID_RXD_0(0));
+
+    TDATA_RXD_1      <= STD_LOGIC_VECTOR(uTDATA_RXD_1);
+    uTREADY_RXD_1(0) <= TREADY_RXD_1;
+    TVALID_RXD_1     <= STD_LOGIC(uTVALID_RXD_1(0));
 
     ----------------------------------------------------------------------------
     p_clk100MHz : PROCESS
