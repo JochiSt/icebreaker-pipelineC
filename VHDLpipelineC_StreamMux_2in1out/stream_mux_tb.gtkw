@@ -1,0 +1,50 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Thu Oct 30 14:18:59 2025
+[*]
+[dumpfile] "/home/steinmann/devel/github/FPGA/icebreaker-pipelineC/VHDLpipelineC_StreamMux_2in1out/stream_mux_tb.ghw"
+[dumpfile_mtime] "Thu Oct 30 14:16:41 2025"
+[dumpfile_size] 25412
+[savefile] "/home/steinmann/devel/github/FPGA/icebreaker-pipelineC/VHDLpipelineC_StreamMux_2in1out/stream_mux_tb.gtkw"
+[timestart] 0
+[size] 1920 1121
+[pos] -27 -24
+*-26.260244 162700000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.stream_mux_tb.
+[sst_width] 297
+[signals_width] 150
+[sst_expanded] 1
+[sst_vpaned_height] 340
+@28
+top.stream_mux_tb.clk_100p0
+top.stream_mux_tb.trigger
+@200
+-
+-Master 0
+@28
+top.stream_mux_tb.axi_master_0.tlast_txd
+top.stream_mux_tb.axi_master_0.tvalid_txd
+top.stream_mux_tb.axi_master_0.tready_txd
+@25
+#{top.stream_mux_tb.axi_master_0.tdata_txd[31:0]} top.stream_mux_tb.axi_master_0.tdata_txd[31] top.stream_mux_tb.axi_master_0.tdata_txd[30] top.stream_mux_tb.axi_master_0.tdata_txd[29] top.stream_mux_tb.axi_master_0.tdata_txd[28] top.stream_mux_tb.axi_master_0.tdata_txd[27] top.stream_mux_tb.axi_master_0.tdata_txd[26] top.stream_mux_tb.axi_master_0.tdata_txd[25] top.stream_mux_tb.axi_master_0.tdata_txd[24] top.stream_mux_tb.axi_master_0.tdata_txd[23] top.stream_mux_tb.axi_master_0.tdata_txd[22] top.stream_mux_tb.axi_master_0.tdata_txd[21] top.stream_mux_tb.axi_master_0.tdata_txd[20] top.stream_mux_tb.axi_master_0.tdata_txd[19] top.stream_mux_tb.axi_master_0.tdata_txd[18] top.stream_mux_tb.axi_master_0.tdata_txd[17] top.stream_mux_tb.axi_master_0.tdata_txd[16] top.stream_mux_tb.axi_master_0.tdata_txd[15] top.stream_mux_tb.axi_master_0.tdata_txd[14] top.stream_mux_tb.axi_master_0.tdata_txd[13] top.stream_mux_tb.axi_master_0.tdata_txd[12] top.stream_mux_tb.axi_master_0.tdata_txd[11] top.stream_mux_tb.axi_master_0.tdata_txd[10] top.stream_mux_tb.axi_master_0.tdata_txd[9] top.stream_mux_tb.axi_master_0.tdata_txd[8] top.stream_mux_tb.axi_master_0.tdata_txd[7] top.stream_mux_tb.axi_master_0.tdata_txd[6] top.stream_mux_tb.axi_master_0.tdata_txd[5] top.stream_mux_tb.axi_master_0.tdata_txd[4] top.stream_mux_tb.axi_master_0.tdata_txd[3] top.stream_mux_tb.axi_master_0.tdata_txd[2] top.stream_mux_tb.axi_master_0.tdata_txd[1] top.stream_mux_tb.axi_master_0.tdata_txd[0]
+@200
+-
+-Master 1
+@28
+top.stream_mux_tb.axi_master_1.tlast_txd
+top.stream_mux_tb.axi_master_1.tvalid_txd
+top.stream_mux_tb.axi_master_1.tready_txd
+@24
+#{top.stream_mux_tb.axi_master_1.tdata_txd[31:0]} top.stream_mux_tb.axi_master_1.tdata_txd[31] top.stream_mux_tb.axi_master_1.tdata_txd[30] top.stream_mux_tb.axi_master_1.tdata_txd[29] top.stream_mux_tb.axi_master_1.tdata_txd[28] top.stream_mux_tb.axi_master_1.tdata_txd[27] top.stream_mux_tb.axi_master_1.tdata_txd[26] top.stream_mux_tb.axi_master_1.tdata_txd[25] top.stream_mux_tb.axi_master_1.tdata_txd[24] top.stream_mux_tb.axi_master_1.tdata_txd[23] top.stream_mux_tb.axi_master_1.tdata_txd[22] top.stream_mux_tb.axi_master_1.tdata_txd[21] top.stream_mux_tb.axi_master_1.tdata_txd[20] top.stream_mux_tb.axi_master_1.tdata_txd[19] top.stream_mux_tb.axi_master_1.tdata_txd[18] top.stream_mux_tb.axi_master_1.tdata_txd[17] top.stream_mux_tb.axi_master_1.tdata_txd[16] top.stream_mux_tb.axi_master_1.tdata_txd[15] top.stream_mux_tb.axi_master_1.tdata_txd[14] top.stream_mux_tb.axi_master_1.tdata_txd[13] top.stream_mux_tb.axi_master_1.tdata_txd[12] top.stream_mux_tb.axi_master_1.tdata_txd[11] top.stream_mux_tb.axi_master_1.tdata_txd[10] top.stream_mux_tb.axi_master_1.tdata_txd[9] top.stream_mux_tb.axi_master_1.tdata_txd[8] top.stream_mux_tb.axi_master_1.tdata_txd[7] top.stream_mux_tb.axi_master_1.tdata_txd[6] top.stream_mux_tb.axi_master_1.tdata_txd[5] top.stream_mux_tb.axi_master_1.tdata_txd[4] top.stream_mux_tb.axi_master_1.tdata_txd[3] top.stream_mux_tb.axi_master_1.tdata_txd[2] top.stream_mux_tb.axi_master_1.tdata_txd[1] top.stream_mux_tb.axi_master_1.tdata_txd[0]
+@200
+-
+-Slave 0
+@28
+top.stream_mux_tb.axi_slave_0.tlast_rxd
+top.stream_mux_tb.axi_slave_0.tvalid_rxd
+top.stream_mux_tb.axi_slave_0.tready_rxd
+@24
+#{top.stream_mux_tb.axi_slave_0.tdata_rxd[31:0]} top.stream_mux_tb.axi_slave_0.tdata_rxd[31] top.stream_mux_tb.axi_slave_0.tdata_rxd[30] top.stream_mux_tb.axi_slave_0.tdata_rxd[29] top.stream_mux_tb.axi_slave_0.tdata_rxd[28] top.stream_mux_tb.axi_slave_0.tdata_rxd[27] top.stream_mux_tb.axi_slave_0.tdata_rxd[26] top.stream_mux_tb.axi_slave_0.tdata_rxd[25] top.stream_mux_tb.axi_slave_0.tdata_rxd[24] top.stream_mux_tb.axi_slave_0.tdata_rxd[23] top.stream_mux_tb.axi_slave_0.tdata_rxd[22] top.stream_mux_tb.axi_slave_0.tdata_rxd[21] top.stream_mux_tb.axi_slave_0.tdata_rxd[20] top.stream_mux_tb.axi_slave_0.tdata_rxd[19] top.stream_mux_tb.axi_slave_0.tdata_rxd[18] top.stream_mux_tb.axi_slave_0.tdata_rxd[17] top.stream_mux_tb.axi_slave_0.tdata_rxd[16] top.stream_mux_tb.axi_slave_0.tdata_rxd[15] top.stream_mux_tb.axi_slave_0.tdata_rxd[14] top.stream_mux_tb.axi_slave_0.tdata_rxd[13] top.stream_mux_tb.axi_slave_0.tdata_rxd[12] top.stream_mux_tb.axi_slave_0.tdata_rxd[11] top.stream_mux_tb.axi_slave_0.tdata_rxd[10] top.stream_mux_tb.axi_slave_0.tdata_rxd[9] top.stream_mux_tb.axi_slave_0.tdata_rxd[8] top.stream_mux_tb.axi_slave_0.tdata_rxd[7] top.stream_mux_tb.axi_slave_0.tdata_rxd[6] top.stream_mux_tb.axi_slave_0.tdata_rxd[5] top.stream_mux_tb.axi_slave_0.tdata_rxd[4] top.stream_mux_tb.axi_slave_0.tdata_rxd[3] top.stream_mux_tb.axi_slave_0.tdata_rxd[2] top.stream_mux_tb.axi_slave_0.tdata_rxd[1] top.stream_mux_tb.axi_slave_0.tdata_rxd[0]
+[pattern_trace] 1
+[pattern_trace] 0
