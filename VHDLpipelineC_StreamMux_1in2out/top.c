@@ -22,29 +22,25 @@ my_func_out_t my_func(stream(axis32_t) input, uint1_t ready_for_axis0_out, uint1
     // if we have no new data -> ready for new data
     outputs.ready_for_axis_in = ~ ( new_data0 | new_data1);
 
+    // set TLAST to zero
     outputs.axis0_out.data.tlast = 0;
     outputs.axis1_out.data.tlast = 0;
 
+    ////////////////////////////////////////////////////////////////////////////
     // Input ready writes buffer and do some calculations
     if (input.valid) {
-        if (~new_data0) {
-            uint32_t buff_data;
-            buff_data = uint8_array4_le(input.data.tdata);
-            buff_data += 1;
+        uint32_t buff_data;
+        buff_data = uint8_array4_le(input.data.tdata);
+        if (~new_data0 & ( (buff_data & 0x1) == 0) ) {      // buffer 0 should have all even ones
             UINT_TO_BYTE_ARRAY(outputs.axis0_out.data.tdata, 4, buff_data)
-
             new_data0 = 1; // mark, that new data is available
-        }
-        if (~new_data1) {
-            uint32_t buff_data;
-            buff_data = uint8_array4_le(input.data.tdata);
-            buff_data += 1;
+        }else if (~new_data1) {                             // buffer 1 should have all odd ones
             UINT_TO_BYTE_ARRAY(outputs.axis1_out.data.tdata, 4, buff_data)
-
             new_data1 = 1; // mark, that new data is available
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////
     // Output ready marks, that we are ready for new data
     if (new_data0) {
         if (ready_for_axis0_out) {
@@ -55,6 +51,7 @@ my_func_out_t my_func(stream(axis32_t) input, uint1_t ready_for_axis0_out, uint1
         outputs.axis0_out.valid = 0;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
     if (new_data1) {
         if (ready_for_axis1_out) {
             new_data1 = 0; // data has been read out
