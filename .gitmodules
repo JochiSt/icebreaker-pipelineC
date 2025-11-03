@@ -1,3 +1,4 @@
 [submodule "cocotb/modules/cocotbext-eth"]
 	path = cocotb-ext/cocotbext-eth
-	url = https://github.com/svancau/cocotbext-eth.git
+    url = https://github.com/svancau/cocotbext-eth.git
+    ignore = dirty
