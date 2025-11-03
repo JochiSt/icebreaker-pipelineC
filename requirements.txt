@@ -1,5 +1,6 @@
 cocotb==1.9.2
 cocotb-bus==0.2.1
 cocotbext-axi==0.1.26
-cocotbext-eth @ file://cocotb-ext/cocotbext-eth
+cocotbext-eth @ file:///home/steinmann/devel/github/FPGA/icebreaker-pipelineC/cocotb-ext/cocotbext-eth
 find_libpython==0.5.0
+scapy==2.6.1
