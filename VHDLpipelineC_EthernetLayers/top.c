@@ -70,8 +70,8 @@ void uart_main() {
 //     |______|  |_|  |_|  |_|______|_|  \_\_| \_|______|  |_|
 //
 ////////////////////////////////////////////////////////////////////////////////
-#include "pinout/pinout_LAN8720.h"
 #include "net/rmii_wires.c"
+#include "pinout/pinout_LAN8720.h"
 
 // Include ethernet media access controller configured to use RMII wires and 8b AXIS
 // with enabled clock crossing fifos (with skid buffers)
@@ -79,27 +79,11 @@ void uart_main() {
 #define RMII_ETH_MAC_TX_SKID_OUT_FIFO_DEPTH 4
 #include "net/rmii_eth_mac.c"
 
-// Include logic for parsing/building ethernet frames (8b AXIS)
-#include "net/eth_8.h"
-// MAC address info we want the fpga to have (shared with software)
-#include "fpga_mac.h"
-
-// Include definition of work to compute
-#include "ip_parser.h"
-
-// Global stream pipeline interface looks same as FIFOs
-#include "global_func_inst.h"
-GLOBAL_VALID_READY_PIPELINE_INST(arp_pipeline, arp_reply_t, arp, arp_request_t, 4)
-
-// De/serialize 1 byte at a time to/from the types for the work compute
-#include "stream/deserializer.h"
-#include "stream/serializer.h"
-// axis_packet deserialize variant to handle min eth frame size padding on incoming frames
-axis_packet_to_type(arp_deserialize, 8, arp_request_t)
-type_byte_serializer(arp_serialize, arp_reply_t, 1)
-
-// ARP and regular loopback use headers FIFO
-GLOBAL_STREAM_FIFO(eth_header_t, loopback_headers_fifo, 2) // another one to hold the headers
+#include "fpga_mac.h"        // MAC address info we want the fpga to have (shared with software)
+#include "net/eth_8.h"       // Include logic for parsing/building ethernet frames (8b AXIS)
+#include "parser_ethernet.h" // Ethernet layer parser
+#include "parser_ip.h"       // IP layer parser
+#include "parser_udp.h"      // UDP layer parser
 
 ////////////////////////////////////////////////////////////////////////////////
 //      _____  __   __
@@ -110,42 +94,21 @@ GLOBAL_STREAM_FIFO(eth_header_t, loopback_headers_fifo, 2) // another one to hol
 //     |_|  \_\/_/ \_\
 //
 ////////////////////////////////////////////////////////////////////////////////
-MAIN_MHZ(rx_main, PLL_CLK_MHZ) void rx_main() {
+MAIN_MHZ(rx_main, PLL_CLK_MHZ)
+void rx_main() {
     // Eth rx ready if deser+header fifo ready
-    uint1_t deser_ready_for_input;
-    #pragma FEEDBACK deser_ready_for_input
-    uint1_t eth_rx_out_ready = deser_ready_for_input & loopback_headers_fifo_in_ready;
+    uint1_t eth_rx_out_ready = 0;
 
     // The rx 'parsing' module
     eth_8_rx_t eth_rx = eth_8_rx(eth_rx_mac_axis_out, eth_rx_out_ready);
     stream(eth8_frame_t) frame = eth_rx.frame;
 
-    // Filter out all but matching destination mac frames including broadcast ones
-    uint1_t mac_match = frame.data.header.dst_mac == FPGA_MAC || frame.data.header.dst_mac == BROADCAST_MAC;
-
-    // Match Ethertype to identify the protocol
-    uint1_t arp_match = frame.data.header.ethertype == ETHERTYPE_ARP;
-
-    // Write DVR handshake if mac match and protocol == ARP
-    uint1_t valid_and_ready = frame.valid & eth_rx_out_ready & mac_match & arp_match;
-
-    // Deserialize and connect to work pipeline input
-    stream(axis8_t) deser_in_stream;
-    deser_in_stream.data = frame.data.payload;
-    deser_in_stream.valid = valid_and_ready;
-    uint1_t deser_output_ready = arp_pipeline_in_ready;
-    arp_deserialize_t deser = arp_deserialize(
-        deser_in_stream,
-        deser_output_ready);
-    deser_ready_for_input = deser.packet_ready; // FEEDBACK
-    arp_pipeline_in.data = deser.data;
-    arp_pipeline_in.valid = deser.valid;
-
-    // Header only written once at the start of data packet
-    loopback_headers_fifo_in.data = frame.data.header;
-    loopback_headers_fifo_in.valid = frame.data.start_of_payload & valid_and_ready;
+    uint1_t toARP_ready;
+    uint1_t toIP_ready;
+    parser_ethernet_out_t eth_out = parser_ethernet(frame, toARP_ready, toIP_ready);
+    eth_rx_out_ready = eth_out.ready_ethernet_in;
 }
-
+/*
 ////////////////////////////////////////////////////////////////////////////////
 //      _________   __
 //     |__   __\ \ / /
@@ -194,3 +157,4 @@ void tx_main() {
     // Read header if was ready at end of packet
     loopback_headers_fifo_out_ready = frame.data.payload.tlast & valid_and_ready;
 }
+*/

@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Ethernet Layer protocol parser
+ *
+ * input:
+ *      ethernet packet
+ *
+ * output:
+ *      ethernet packet but splitted into
+ */
+
 #pragma once
 
 #include "intN_t.h"
@@ -27,18 +37,18 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // Multiple outputs as a struct
-typedef struct my_func_out_t {
+typedef struct parser_ethernet_out_t {
     //  Output .data and .valid stream
-    stream(eth8_frame_t) toIP;
+    stream(axis8_t) toIP;
     stream(eth8_frame_t) toARP;
     //  Output ready for input axis stream
     uint1_t ready_ethernet_in;
-} my_func_out_t;
+} parser_ethernet_out_t;
 
 // ETHERNET Level packet parser
-my_func_out_t parser_ethernet(stream(eth8_frame_t) input, uint1_t toARP_ready, uint1_t toIP_ready) {
+parser_ethernet_out_t parser_ethernet(stream(eth8_frame_t) input, uint1_t toARP_ready, uint1_t toIP_ready) {
 
-    static my_func_out_t outputs; // Default value all zeros
+    static parser_ethernet_out_t outputs; // Default value all zeros
     static uint1_t data_pending_ARP = 0;
     static uint1_t data_pending_IP = 0;
 
@@ -61,7 +71,7 @@ my_func_out_t parser_ethernet(stream(eth8_frame_t) input, uint1_t toARP_ready, u
             outputs.toARP.valid = 0;
         }else if(mac_match && ip_match){
             data_pending_IP = 1;
-            outputs.toIP = input;
+            outputs.toIP.data = input.data.payload;
             outputs.toIP.valid = 0;
         }
     }

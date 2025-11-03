@@ -1,65 +1,87 @@
+/*******************************************************************************
+ * Ethernet Layer protocol parser
+ *
+ * input:
+ *      ip packet
+ *
+ * output:
+ *      ethernet packet but splitted into
+ */
+
 #pragma once
 
 #include "intN_t.h"
 #include "arrays.h"
 #include "axi/axis.h"
 #include "stream/stream.h"
+#include "net/eth_8.h"
 
+#include "fpga_mac.h"
+
+////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////
 // Multiple outputs as a struct
-typedef struct my_func_out_t {
+typedef struct parser_ip_out_t {
     //  Output .data and .valid stream
-    stream(eth8_frame_t) axis0_out;
-    stream(eth8_frame_t) axis1_out;
+    stream(axis8_t) toICMP;
+    stream(axis8_t) toUDP;
     //  Output ready for input axis stream
-    uint1_t ready_for_axis_in;
-} my_func_out_t;
+    uint1_t ready_ethernet_in;
+} parser_ip_out_t;
 
-my_func_out_t ip_parser(stream(eth8_frame_t) input, uint1_t ready_for_axis0_out, uint1_t ready_for_axis1_out) {
+// ETHERNET Level packet parser
+parser_ip_out_t parser_ip(stream(axis8_t) input, uint1_t toICMP_ready, uint1_t toUDP_ready) {
 
-    static my_func_out_t outputs; // Default value all zeros
-    static uint1_t new_data0 = 0;
-    static uint1_t new_data1 = 0;
+    static parser_ip_out_t outputs; // Default value all zeros
+    static uint1_t data_pending_ICMP = 0;
+    static uint1_t data_pending_UDP = 0;
 
     // if we have no new data -> ready for new data
-    outputs.ready_for_axis_in = ~ ( new_data0 | new_data1);
-
-    // set TLAST to zero
-    outputs.axis0_out.data.tlast = 0;
-    outputs.axis1_out.data.tlast = 0;
+    outputs.ready_ethernet_in = ~ ( data_pending_ICMP | data_pending_UDP);
 
     ////////////////////////////////////////////////////////////////////////////
     // Input ready writes buffer and do some calculations
     if (input.valid) {
-        uint32_t buff_data;
-        buff_data = uint8_array4_le(input.data.tdata);
-        if (~new_data0 & ( (buff_data & 0x1) == 0) ) {      // buffer 0 should have all even ones
-            UINT_TO_BYTE_ARRAY(outputs.axis0_out.data.tdata, 4, buff_data)
-            new_data0 = 1; // mark, that new data is available
-        }else if (~new_data1) {                             // buffer 1 should have all odd ones
-            UINT_TO_BYTE_ARRAY(outputs.axis1_out.data.tdata, 4, buff_data)
-            new_data1 = 1; // mark, that new data is available
+        // first look for matching IP adress
+
+        uint1_t mac_match = input.data.header.dst_mac == FPGA_MAC || input.data.header.src_mac == BROADCAST_MAC;
+
+        // look for ETHERTYPE
+        uint1_t arp_match = input.data.header.ethertype == ETHERTYPE_ARP;
+        uint1_t ip_match = input.data.header.ethertype == ETHERTYPE_IP;
+
+        if(mac_match && arp_match){
+            data_pending_ICMP = 1;
+            outputs.toICMP = input;
+            outputs.toICMP.valid = 0;
+        }else if(mac_match && ip_match){
+            data_pending_UDP = 1;
+            outputs.toUDP.data = input.data.payload;
+            outputs.toUDP.valid = 0;
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////
     // Output ready marks, that we are ready for new data
-    if (new_data0) {
-        if (ready_for_axis0_out) {
-            new_data0 = 0; // data has been read out
+    if (data_pending_ICMP) {
+        if (toICMP_ready) {
+            data_pending_ICMP = 0; // data has been read out
         }
-        outputs.axis0_out.valid = 1;
+        outputs.toICMP.valid = 1;
     } else {
-        outputs.axis0_out.valid = 0;
+        outputs.toICMP.valid = 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    if (new_data1) {
-        if (ready_for_axis1_out) {
-            new_data1 = 0; // data has been read out
+    if (data_pending_UDP) {
+        if (toUDP_ready) {
+            data_pending_UDP = 0; // data has been read out
         }
-        outputs.axis1_out.valid = 1;
+        outputs.toUDP.valid = 1;
     } else {
-        outputs.axis1_out.valid = 0;
+        outputs.toUDP.valid = 0;
     }
 
     return outputs;
