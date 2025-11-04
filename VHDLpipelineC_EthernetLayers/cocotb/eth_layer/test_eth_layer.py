@@ -69,13 +69,25 @@ async def test_eth_packet_RX(dut):
     dut.pll_locked.value = 1    # enable PLL
 
     ############################################################################
+    # scapy -> cocotb
     # send an ARP request packet
     arp_packet = scapy.Ether() / scapy.ARP(pdst="192.168.0.20")
 
     await rmii_phy.rx.send(GmiiFrame.from_payload( scapy.raw(arp_packet)) )
-    #tx_data = await rmii_phy.tx.recv( )
+    tx_data = await rmii_phy.tx.recv( )
 
-    for _ in range(2000):
+    ############################################################################
+    # cocotb -> scapy
+
+    # Dissect the packet
+    packet = scapy.Ether(bytes(tx_data.get_payload()))
+
+    # Display the summary of each layer in the packet
+    packet.show()
+
+
+    # wait some time
+    for _ in range(20):
         await RisingEdge(dut.pll_clk)
 
 
