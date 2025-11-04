@@ -1,0 +1,57 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Tue Nov  4 14:49:55 2025
+[*]
+[dumpfile] "/home/steinmann/devel/github/FPGA/icebreaker-pipelineC/VHDLpipelineC_EthernetLayers/cocotb/eth_layer/sim_build/test_eth_layer.ghw"
+[dumpfile_mtime] "Tue Nov  4 14:48:03 2025"
+[dumpfile_size] 872068
+[savefile] "/home/steinmann/devel/github/FPGA/icebreaker-pipelineC/VHDLpipelineC_EthernetLayers/cocotb/eth_layer/test_eth_layer.gtkw"
+[timestart] 0
+[size] 1920 1121
+[pos] -27 -24
+*-27.407864 2050000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.sim_top.
+[treeopen] top.sim_top.pipelinec_top_0.
+[treeopen] top.sim_top.pipelinec_top_0.rx_main_0clk_557f0a32.
+[treeopen] top.sim_top.pipelinec_top_0.rx_main_0clk_557f0a32.eth_8_rx_top_c_l120_c25_92ab_mac_axis.
+[treeopen] top.sim_top.pipelinec_top_0.rx_main_0clk_557f0a32.eth_8_rx_top_c_l120_c25_92ab_mac_axis.data.
+[treeopen] top.sim_top.pipelinec_top_0.rx_main_0clk_557f0a32.eth_8_rx_top_c_l120_c25_92ab_mac_axis.data.tdata.
+[sst_width] 297
+[signals_width] 190
+[sst_expanded] 1
+[sst_vpaned_height] 340
+@28
+top.sim_top.clk
+top.sim_top.clk_none
+top.sim_top.pll_clk[0]
+@200
+-
+-RMII
+@28
+#{top.sim_top.eth_tx_vect[1:0]} top.sim_top.eth_tx_vect[1] top.sim_top.eth_tx_vect[0]
+#{top.sim_top.eth_rx_vect_std[1:0]} top.sim_top.eth_rx_vect_std[1] top.sim_top.eth_rx_vect_std[0]
+#{top.sim_top.eth_rx_vect[1:0]} top.sim_top.eth_rx_vect[1] top.sim_top.eth_rx_vect[0]
+top.sim_top.p1a8[0]
+top.sim_top.p1a2[0]
+@200
+-
+-ICE40 pins
+@28
+top.sim_top.p1a10[0]
+top.sim_top.p1a1[0]
+top.sim_top.p1a7[0]
+top.sim_top.p1a3[0]
+top.sim_top.p1a9[0]
+top.sim_top.rx[0]
+top.sim_top.tx[0]
+top.sim_top.pll_locked[0]
+@200
+-
+-PipelineC clocks
+@28
+top.sim_top.pipelinec_top_0.clk_50p0
+top.sim_top.pipelinec_top_0.clk_25p0
+top.sim_top.pipelinec_top_0.clk_none
+[pattern_trace] 1
+[pattern_trace] 0
